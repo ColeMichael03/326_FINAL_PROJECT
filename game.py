@@ -1,5 +1,21 @@
 
-def display_dungeon_map(player_x, player_y):
+class Character:
+    def __init__(self, health):
+        self.health = health
+    
+
+class Player(Character):
+    
+    def __init__(self, health, character_class):
+        super().__init__(health)
+        self.character_class = character_class
+        self.row_pos = 0
+        self.col_pos = 1
+        self.weapon = None
+    
+
+
+def display_dungeon_map(player):
     """
     This function displays a 5x5 dungeon room layout with the player position
     The coords must be in proper range (0-4) when they sent to the function.
@@ -14,19 +30,125 @@ def display_dungeon_map(player_x, player_y):
     """
     
     map = [
-    ["\u25A0", "\u25A0", "\u25A0", "\u25A0", "\u25A0"],
-    ["\u25A0", "\u25A0", "\u25A0", "\u25A0", "\u25A0"],
-    ["\u25A0", "\u25A0", "\u25A0", "\u25A0", "\u25A0"],
-    ["\u25A0", "\u25A0", "\u25A0", "\u25A0", "\u25A0"],
-    ["\u25A0", "\u25A0", "\u25A0", "\u25A0", "\u25A0"]
+    ["\u25A0", "\u25A0", "\u25A0", "\u25A0"],
+    ["\u25A0", "\u25A0", "\u25A0", "\u25A0"],
+    ["\u25A0", "\u25A0", "\u25A0", "\u25A0"],
+    ["\u25A0", "\u25A0", "\u25A0", "\u25A0"]
     ]
     
-    map[player_x][player_y] = "\u25CB"
-    print("--MAP OF THE DUNGEON--")
+    map[player.row_pos][player.col_pos] = "\u25CB"
+    print("Dungeon Map")
     for row in map:
         for item in row:
             print(item, end= " ")
         print("\n")
+
         
+def boss_access_attempt():
+    
+    code = "ABCD"
+    
+    guess = input("You stand upon a massive door. A plaque says 'Ye who dare enter must speak the words of Ragnaric.'\nYou choose to say: ")
+
+    if guess == code:
+        return True
+    else:
+        return False
+    
+    
+def player_move(player):
+    
+    move_accepted = False
+    
+    while (not move_accepted):
         
-display_dungeon_map(4, 2)
+        move_direction = input("Chose move direction: \
+            \nForwards(w)\
+            \nBackwards(s) \
+            \nLeft(a)\
+            \nRight(d)\n")
+        
+        if move_direction.lower() not in ["w", "a", "s", "d"]:
+            print("Invalid direction!")
+            break
+        
+        #FORWARD
+        if move_direction == "w":
+            
+            if (player.row_pos == 0):
+                
+                print("you slam your face into a wall... it seems this is as far forward as you can go.")
+                
+            elif (player.row_pos == 1 and player.col_pos == 0):
+                
+                answer = boss_access_attempt()
+                
+                if answer == True:
+                    print("As you speak these words, the mighty door swings open.")
+                    player.row_pos -= 1
+                    move_accepted = True
+                    
+                else:
+                    print("Nothing happened...")
+                    break
+            else:
+                player.row_pos -= 1
+                print("You walk to your forwards through a door and find yourself in NEW ROOM")
+                move_accepted = True
+        #LEFT     
+        if move_direction == "a":
+            
+            if (player.col_pos == 0):
+                
+                print("you slam your face into a wall... it seems this is as far left as you can go.")
+                break
+                
+            elif (player.row_pos == 0 and player.col_pos == 1):
+                
+                answer = boss_access_attempt()
+                
+                if answer == True:
+                    print("As you speak these words, the mighty door swings open.")
+                    player.col_pos -= 1
+                    move_accepted = True
+                    
+                else:
+                    print("Nothing happened...")
+                    break
+
+            else:
+                player.col_pos -= 1
+                print("You walk to your left through a door and find yourself in NEW ROOM")
+                move_accepted = True
+        #DOWN
+        if move_direction == "s":
+            
+            if (player.row_pos == 3):
+                
+                print("you slam your face into a wall... it seems this is as far backwards as you can go.")
+                break
+            
+            else:
+                player.row_pos += 1
+                print("You walk to your backwards through a door and find yourself in NEW ROOM")
+                move_accepted = True
+        #RIGHT
+        if move_direction == "d":
+            
+            if (player.col_pos == 3):
+                
+                print("you slam your face into a wall... it seems this is as far right as you can go.")
+                break
+            
+            else:
+                player.col_pos += 1
+                print("You walk to your right through a door and find yourself in NEW ROOM")
+                move_accepted = True
+
+        
+    
+player = Player(100, "Warrior")
+
+display_dungeon_map(player)
+player_move(player)
+display_dungeon_map(player)
