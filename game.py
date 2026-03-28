@@ -1,3 +1,5 @@
+"""Simulate a dungeon crawler with prodecurally generated rooms, combat, and loot collection"""
+
 
 class Character:
     def __init__(self, health):
