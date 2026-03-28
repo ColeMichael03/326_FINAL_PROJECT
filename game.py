@@ -14,7 +14,6 @@ class Player(Character):
         self.weapon = None
     
 
-
 def display_dungeon_map(player):
     """
     This function displays a 5x5 dungeon room layout with the player position
@@ -30,14 +29,18 @@ def display_dungeon_map(player):
     """
     
     map = [
-    ["\u25A0", "\u25A0", "\u25A0", "\u25A0"],
-    ["\u25A0", "\u25A0", "\u25A0", "\u25A0"],
-    ["\u25A0", "\u25A0", "\u25A0", "\u25A0"],
-    ["\u25A0", "\u25A0", "\u25A0", "\u25A0"]
+    ["\u25A0\t", "\u25A0\t", "\u25A0\t","\u25A0\t"],
+    ["\u25A0\t", "\u25A0\t", "\u25A0\t", "\u25A0\t"],
+    ["\u25A0\t", "\u25A0\t", "\u25A0\t", "\u25A0\t"],
+    ["\u25A0\t", "\u25A0\t", "\u25A0\t", "\u25A0\t"]
     ]
     
-    map[player.row_pos][player.col_pos] = "\u25CB"
-    print("Dungeon Map")
+    #setting player symbol at the proper coordinates
+    map[player.row_pos][player.col_pos] = "\u25CB\t"
+    #boss room symbol
+    map[0][0] = "\u2620\t"
+    
+    print("\n----Map Of The Dungeon----")
     for row in map:
         for item in row:
             print(item, end= " ")
@@ -70,15 +73,15 @@ def player_move(player):
         
         if move_direction.lower() not in ["w", "a", "s", "d"]:
             print("Invalid direction!")
-            break
         
         #FORWARD
         if move_direction == "w":
-            
+            #If at top wall already, cannot move forwards
             if (player.row_pos == 0):
                 
                 print("you slam your face into a wall... it seems this is as far forward as you can go.")
                 
+            #Attempt to enter boss room    
             elif (player.row_pos == 1 and player.col_pos == 0):
                 
                 answer = boss_access_attempt()
@@ -89,20 +92,21 @@ def player_move(player):
                     move_accepted = True
                     
                 else:
-                    print("Nothing happened...")
+                    print("Nothing happened... It semms you must go elsewhere first.")
                     break
+            #Valid move
             else:
                 player.row_pos -= 1
                 print("You walk to your forwards through a door and find yourself in NEW ROOM")
                 move_accepted = True
         #LEFT     
         if move_direction == "a":
-            
+            #If at the left wall already, you cannot progress
             if (player.col_pos == 0):
                 
                 print("you slam your face into a wall... it seems this is as far left as you can go.")
-                break
-                
+            
+            #Attempt to enter boss room
             elif (player.row_pos == 0 and player.col_pos == 1):
                 
                 answer = boss_access_attempt()
@@ -115,31 +119,29 @@ def player_move(player):
                 else:
                     print("Nothing happened...")
                     break
-
+            #Valid move
             else:
                 player.col_pos -= 1
                 print("You walk to your left through a door and find yourself in NEW ROOM")
                 move_accepted = True
         #DOWN
         if move_direction == "s":
-            
+            #Barrier of map
             if (player.row_pos == 3):
                 
                 print("you slam your face into a wall... it seems this is as far backwards as you can go.")
-                break
-            
+            #Valid move
             else:
                 player.row_pos += 1
                 print("You walk to your backwards through a door and find yourself in NEW ROOM")
                 move_accepted = True
         #RIGHT
         if move_direction == "d":
-            
+            #Barrier of map
             if (player.col_pos == 3):
                 
                 print("you slam your face into a wall... it seems this is as far right as you can go.")
-                break
-            
+            #Valid move
             else:
                 player.col_pos += 1
                 print("You walk to your right through a door and find yourself in NEW ROOM")
