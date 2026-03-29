@@ -1,6 +1,5 @@
 """Simulate a dungeon crawler with prodecurally generated rooms, combat, and loot collection"""
 
-
 class Character:
     def __init__(self, health):
         self.health = health
@@ -11,8 +10,8 @@ class Player(Character):
     def __init__(self, health, character_class):
         super().__init__(health)
         self.character_class = character_class
-        self.row_pos = 0
-        self.col_pos = 1
+        self.row_pos = 3
+        self.col_pos = 3
         self.weapon = None
     
 
@@ -67,11 +66,7 @@ def player_move(player):
     
     while (not move_accepted):
         
-        move_direction = input("Chose move direction: \
-            \nForwards(w)\
-            \nBackwards(s) \
-            \nLeft(a)\
-            \nRight(d)\n")
+        move_direction = input("Chose direction to move in (w,a,s,d): ")
         
         if move_direction.lower() not in ["w", "a", "s", "d"]:
             print("Invalid direction!")
@@ -153,6 +148,7 @@ def player_move(player):
     
 player = Player(100, "Warrior")
 
-display_dungeon_map(player)
-player_move(player)
-display_dungeon_map(player)
+for i in range(5):
+    display_dungeon_map(player)
+    player_move(player)
+    display_dungeon_map(player)
