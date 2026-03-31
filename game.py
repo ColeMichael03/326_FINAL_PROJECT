@@ -96,7 +96,7 @@ def player_move(player):
             #Valid move
             else:
                 player.row_pos -= 1
-                print("You walk to your forwards through a door and find yourself in NEW ROOM")
+                print("You walk forwards through a door and find yourself in NEW ROOM")
                 move_accepted = True
         #LEFT     
         if move_direction == "a":
@@ -132,7 +132,7 @@ def player_move(player):
             #Valid move
             else:
                 player.row_pos += 1
-                print("You walk to your backwards through a door and find yourself in NEW ROOM")
+                print("You walk backwards through a door and find yourself in NEW ROOM")
                 move_accepted = True
         #RIGHT
         if move_direction == "d":
