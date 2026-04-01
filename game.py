@@ -1,4 +1,4 @@
-"""Simulate a dungeon crawler with prodecurally generated rooms, combat, and loot collection"""
+"""Simulate a dungeon crawler with procedurally generated rooms, combat, and loot collection"""
 "test commit"
 import data
 
