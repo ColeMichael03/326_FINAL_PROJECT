@@ -1,0 +1,18 @@
+rooms = {
+    (0,0) : "Aric's Lair",
+    (0,1) : "Hall of Limbo",
+    (0,2) : "Fungal Grotto",
+    (0,3) : "Wailing Vault",
+    (1,0) : "Creaky Hollow",
+    (1,1) : "Traitor's Nook",
+    (1,2) : "Frozen Cavern",
+    (1,3) : "Putrid Falls",
+    (2,0) : "Crypt of Despair",
+    (2,1) : "Desolate Garden",
+    (2,2) : "Noxious Sewers",
+    (2,3) : "Haunting Mines",
+    (3,0) : "Serpent Cave",
+    (3,1) : "Whispering Catacombes",
+    (3,2) : "Forgotten Ruins",
+    (3,3) : "Dungeon Entrance"
+}

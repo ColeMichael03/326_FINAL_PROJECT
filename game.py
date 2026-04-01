@@ -1,6 +1,6 @@
 """Simulate a dungeon crawler with prodecurally generated rooms, combat, and loot collection"""
 "test commit"
-
+import data
 
 class Character:
     def __init__(self, health):
@@ -38,10 +38,11 @@ def display_dungeon_map(player):
     ["\u25A0\t", "\u25A0\t", "\u25A0\t", "\u25A0\t"]
     ]
     
+     #boss room symbol
+    map[0][0] = "\u2620\t"
     #setting player symbol at the proper coordinates
     map[player.row_pos][player.col_pos] = "\u25CB\t"
-    #boss room symbol
-    map[0][0] = "\u2620\t"
+   
     
     print("\n----Map Of The Dungeon----")
     for row in map:
@@ -54,11 +55,17 @@ def boss_access_attempt():
     
     code = "ABCD"
     
-    guess = input("You stand upon a massive door. A plaque says 'Ye who dare enter must speak the words of Ragnaric.'\nYou choose to say: ")
+    guess = input("You stand upon a massive door. A plaque says "
+                "'Ye who dare enter must speak the words of Ragnaric.' "
+                "You choose to say: ")
 
     if guess == code:
+        print("As you speak these words, the mighty door swings open. " 
+              f"You are in {data.rooms[0,0]}")
         return True
     else:
+        print("Nothing happened... "
+        "It seems you must figure out what to say first.")
         return False
     
     
@@ -68,17 +75,19 @@ def player_move(player):
     
     while (not move_accepted):
         
-        move_direction = input("Chose direction to move in (w,a,s,d): ")
+        move_direction = input("Choose a direction to move in (w,a,s,d): ")
         
         if move_direction.lower() not in ["w", "a", "s", "d"]:
             print("Invalid direction!")
+        
         
         #FORWARD
         if move_direction == "w":
             #If at top wall already, cannot move forwards
             if (player.row_pos == 0):
-                
-                print("you slam your face into a wall... it seems this is as far forward as you can go.")
+    
+                print("you slam your face into a wall... "
+                      "it seems this is as far forward as you can go.")
                 
             #Attempt to enter boss room    
             elif (player.row_pos == 1 and player.col_pos == 0):
@@ -86,24 +95,27 @@ def player_move(player):
                 answer = boss_access_attempt()
                 
                 if answer == True:
-                    print("As you speak these words, the mighty door swings open.")
                     player.row_pos -= 1
                     move_accepted = True
                     
-                else:
-                    print("Nothing happened... It semms you must go elsewhere first.")
-                    break
+                else: 
+                    continue
+                
             #Valid move
             else:
                 player.row_pos -= 1
-                print("You walk forwards through a door and find yourself in NEW ROOM")
+                print("You walk forwards through a door and find "
+                      f"yourself in the {data.rooms[(player.row_pos, player.col_pos)]}")
                 move_accepted = True
+                
+                
         #LEFT     
         if move_direction == "a":
             #If at the left wall already, you cannot progress
             if (player.col_pos == 0):
                 
-                print("you slam your face into a wall... it seems this is as far left as you can go.")
+                print("you slam your face into a wall... "
+                      "it seems this is as far left as you can go.")
             
             #Attempt to enter boss room
             elif (player.row_pos == 0 and player.col_pos == 1):
@@ -111,46 +123,49 @@ def player_move(player):
                 answer = boss_access_attempt()
                 
                 if answer == True:
-                    print("As you speak these words, the mighty door swings open.")
                     player.col_pos -= 1
                     move_accepted = True
                     
                 else:
-                    print("Nothing happened...")
-                    break
+                    continue
+                
             #Valid move
             else:
                 player.col_pos -= 1
-                print("You walk to your left through a door and find yourself in NEW ROOM")
+                print("You walk to your left through a door and find "
+                      f"yourself in the {data.rooms[(player.row_pos, player.col_pos)]}")
                 move_accepted = True
         #DOWN
         if move_direction == "s":
             #Barrier of map
             if (player.row_pos == 3):
                 
-                print("you slam your face into a wall... it seems this is as far backwards as you can go.")
+                print("you slam your face into a wall... "
+                      "it seems this is as far backwards as you can go.")
             #Valid move
             else:
                 player.row_pos += 1
-                print("You walk backwards through a door and find yourself in NEW ROOM")
+                print("You walk backwards through a door and find "
+                      f"yourself in the {data.rooms[(player.row_pos, player.col_pos)]}")
                 move_accepted = True
         #RIGHT
         if move_direction == "d":
             #Barrier of map
             if (player.col_pos == 3):
                 
-                print("you slam your face into a wall... it seems this is as far right as you can go.")
+                print("you slam your face into a wall... "
+                      "it seems this is as far right as you can go.")
             #Valid move
             else:
                 player.col_pos += 1
-                print("You walk to your right through a door and find yourself in NEW ROOM")
+                print("You walk to your right through a door and find "
+                      f"yourself in the {data.rooms[(player.row_pos, player.col_pos)]}")
                 move_accepted = True
 
         
     
 player = Player(100, "Warrior")
 
-for i in range(5):
+for i in range(9):
     display_dungeon_map(player)
     player_move(player)
-    display_dungeon_map(player)
