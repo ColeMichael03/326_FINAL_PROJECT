@@ -16,3 +16,17 @@ rooms = {
     (3,2) : "Forgotten Ruins",
     (3,3) : "Dungeon Entrance"
 }
+enemy_types = {
+    1: "Goblin",
+    2: "Orc",
+    3: "Zombie",
+    4: "Lycanthrope",
+    5: "Ghoul",
+    6: "Imp",
+    7: "Necromancer",
+    8: "Vampire",
+    9: "Mummy",
+    10: "Lich",
+    11: "Wraith",
+    12: "Cave Troll"
+}

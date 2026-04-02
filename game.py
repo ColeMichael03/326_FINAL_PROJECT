@@ -9,12 +9,56 @@ class Character:
 
 class Player(Character):
     
-    def __init__(self, health, character_class):
+    def __init__(self, health, character_class, player_name, dodge_chance):
         super().__init__(health)
         self.character_class = character_class
         self.row_pos = 3
         self.col_pos = 3
+        self.dodge_chance = dodge_chance
         self.weapon = None
+
+class Weapon():
+    def __init__(self, weapon_name, heavy_damage, light_damage):
+        self.weapon_name = weapon_name
+        self.heavy_damage = heavy_damage
+        self.light_damage = light_damage
+        
+    #Will have attack methods for both light and heavy with flavor text
+    
+    
+def create_player():
+    
+    name = input("After days following the ragged map given you "
+                 "by a mysterous man in a tavern, you finally find yourself at "
+                 "the entrance of a decrepit dungeon. /nWhat is your name? ")
+    
+    player_class = "0"
+    
+    while player_class not in ["1", "2", "3"]:
+        player_class = input(f"Very well, {name}. What is your background?.\n"
+                            "1. A warrior, veteran of the Great War.\n"
+                            "2. A mage, graduate of The Arcane Institute.\n"
+                            "3. A thief, legend of the underworld\n")
+    
+    if player_class == "1":
+        player = Player(150, "Warrior", name, 10)
+        player.weapon = Weapon("Battleaxe", 65, 35)
+        
+    elif player_class == "2":
+        player = Player(100, "Mage", name, 20)
+        player.weapon = Weapon("Grand Staff", 50, 25)
+    else:
+        player = Player(75, "Thief", name, 65)
+        player.weapon = Weapon("Obsidian Dagger", 35, 15)
+    
+    print(f"After a moment of contemplation, {player.name} "
+          f"the {player.character_class} enters the dungeon.")
+    
+    return player
+    
+        
+        
+        
     
 
 def display_dungeon_map(player):
