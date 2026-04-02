@@ -5,17 +5,22 @@ import data
 class Character:
     def __init__(self, health):
         self.health = health
-    
+
 
 class Player(Character):
     
     def __init__(self, health, character_class, player_name, dodge_chance):
         super().__init__(health)
         self.character_class = character_class
+        self.player_name = player_name
         self.row_pos = 3
         self.col_pos = 3
         self.dodge_chance = dodge_chance
         self.weapon = None
+
+#enemy class that extends character. Will be created by a function to give
+#some randomness to the enemies.
+
 
 class Weapon():
     def __init__(self, weapon_name, heavy_damage, light_damage):
@@ -25,12 +30,12 @@ class Weapon():
         
     #Will have attack methods for both light and heavy with flavor text
     
-    
+
 def create_player():
     
     name = input("After days following the ragged map given you "
                  "by a mysterous man in a tavern, you finally find yourself at "
-                 "the entrance of a decrepit dungeon. /nWhat is your name? ")
+                 "the entrance of a decrepit dungeon. \nWhat is your name? ")
     
     player_class = "0"
     
@@ -51,7 +56,7 @@ def create_player():
         player = Player(75, "Thief", name, 65)
         player.weapon = Weapon("Obsidian Dagger", 35, 15)
     
-    print(f"After a moment of contemplation, {player.name} "
+    print(f"After a moment of contemplation, {player.player_name} "
           f"the {player.character_class} enters the dungeon.")
     
     return player
@@ -59,8 +64,6 @@ def create_player():
         
         
         
-    
-
 def display_dungeon_map(player):
     """
     This function displays a 5x5 dungeon room layout with the player position
@@ -207,8 +210,8 @@ def player_move(player):
                 move_accepted = True
 
         
-    
-player = Player(100, "Warrior")
+#testing zone   
+player = create_player()
 
 for i in range(9):
     display_dungeon_map(player)
