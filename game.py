@@ -12,6 +12,7 @@ class Player(Character):
     def __init__(self, health, character_class, player_name, dodge_chance):
         super().__init__(health)
         self.character_class = character_class
+        self.player_name = player_name
         self.row_pos = 3
         self.col_pos = 3
         self.dodge_chance = dodge_chance
@@ -51,7 +52,7 @@ def create_player():
         player = Player(75, "Thief", name, 65)
         player.weapon = Weapon("Obsidian Dagger", 35, 15)
     
-    print(f"After a moment of contemplation, {player.name} "
+    print(f"After a moment of contemplation, {player.player_name} "
           f"the {player.character_class} enters the dungeon.")
     
     return player
@@ -208,7 +209,7 @@ def player_move(player):
 
         
     
-player = Player(100, "Warrior")
+player = create_player()
 
 for i in range(9):
     display_dungeon_map(player)

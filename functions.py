@@ -123,4 +123,106 @@ def player_move(row_pos, col_pos):
     return (row_pos, col_pos)
 
 
-player_move(0,1)
+
+
+
+def enemy_move(php, ehp, pc):
+    
+    potion_count = pc 
+    player_health = php 
+    enemy_health = ehp
+    
+    
+    #later on the values will be used as weights in a randomizer 
+    choices = {
+        'attack': 0,
+        'heal': 0,
+        'defend': 0     
+    }
+    
+    for move in choices: 
+        if move == 'attack':
+            #player low and enemy high 
+            if 40 >= player_health and enemy_health >= 70:
+                choices[move]+=90 
+            #player low and enemy medium 
+            elif 40 >= player_health and 40 >= enemy_health < 70:
+                choices[move]+=70
+            # both medium 
+            elif 40 >= player_health < 70 and 40 >= enemy_health < 70:
+                choices[move] += 50
+            # both low 
+            elif 40 > player_health and 40 > enemy_health:
+                choices[move] += 45
+            # player med and enemy low 
+            elif 40 >= player_health < 70 and enemy_health < 40:
+                choices[move] += 20
+            #player high and enemy low
+            elif player_health > 70 and enemy_health < 40:
+                choices[move] += 10
+                
+        if move == "defend":
+            #player low and enemy high 
+            if 40 >= player_health and enemy_health >= 70:
+                choices[move]+=35
+            #player low and enemy medium 
+            elif 40 >= player_health and 40 >= enemy_health < 70:
+                choices[move]+=70
+            # both medium 
+            elif 40 >= player_health < 70 and 40 >= enemy_health < 70:
+                choices[move] += 40
+            # both low 
+            elif 40 > player_health and 40 > enemy_health:
+                choices[move] += 30
+            # player med and enemy low 
+            elif 40 >= player_health < 70 and enemy_health < 40:
+                choices[move] += 10
+            #player high and enemy low
+            elif player_health > 70 and enemy_health < 40:
+                choices[move] += 0
+        
+        if move == "heal":
+            if potion_count > 0: 
+                #player low and enemy high 
+                if 40 >= player_health and enemy_health >= 70:
+                    choices[move]+=10
+                #player low and enemy medium 
+                elif 40 >= player_health and 40 >= enemy_health < 70:
+                    choices[move]+=25
+                # both medium 
+                elif 40 >= player_health < 70 and 40 >= enemy_health < 70:
+                    choices[move] += 40
+                # both low 
+                elif 40 > player_health and 40 > enemy_health:
+                    choices[move] += 50
+                # player med and enemy low 
+                elif 40 >= player_health < 70 and enemy_health < 40:
+                    choices[move] += 75
+                #player high and enemy low
+                elif player_health > 70 and enemy_health < 40:
+                    choices[move] += 90
+            else: 
+                choices[move] = 0 
+        
+            
+            # sort dict 
+            
+            sorted_moves = sorted(choices.items(), key=lambda m: m[1], reverse=True)
+            
+            print(sorted_moves[0][0])
+            if sorted_moves[0][0] == 'heal':
+                potion_count -= 1
+            
+            
+                
+        
+        
+        
+    return (sorted_moves[0], potion_count)
+
+
+
+move, pc = enemy_move(86, 15, 2)
+
+print(f"enemy used {move} and has a pc of {pc}")
+        
