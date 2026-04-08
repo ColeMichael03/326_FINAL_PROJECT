@@ -5,7 +5,7 @@ import data
 class Character:
     def __init__(self, health):
         self.health = health
-    
+
 
 class Player(Character):
     
@@ -17,6 +17,13 @@ class Player(Character):
         self.col_pos = 3
         self.dodge_chance = dodge_chance
         self.weapon = None
+        
+        #The map and move funcs will become this class methods
+        #also a show invnetory method that uses a generator expression.
+
+#enemy class that extends character. Will be created by a function to give
+#some randomness to the enemies.
+
 
 class Weapon():
     def __init__(self, weapon_name, heavy_damage, light_damage):
@@ -26,12 +33,12 @@ class Weapon():
         
     #Will have attack methods for both light and heavy with flavor text
     
-    
+
 def create_player():
     
     name = input("After days following the ragged map given you "
                  "by a mysterous man in a tavern, you finally find yourself at "
-                 "the entrance of a decrepit dungeon. /nWhat is your name? ")
+                 "the entrance of a decrepit dungeon. \nWhat is your name? ")
     
     player_class = "0"
     
@@ -60,8 +67,6 @@ def create_player():
         
         
         
-    
-
 def display_dungeon_map(player):
     """
     This function displays a 5x5 dungeon room layout with the player position
@@ -208,7 +213,11 @@ def player_move(player):
                 move_accepted = True
 
         
+<<<<<<< HEAD
     
+=======
+#testing zone   
+>>>>>>> refs/remotes/origin/main
 player = create_player()
 
 for i in range(9):
