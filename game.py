@@ -17,6 +17,9 @@ class Player(Character):
         self.col_pos = 3
         self.dodge_chance = dodge_chance
         self.weapon = None
+        
+        #The map and move funcs will become this class methods
+        #also a show invnetory method that uses a generator expression.
 
 #enemy class that extends character. Will be created by a function to give
 #some randomness to the enemies.

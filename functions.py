@@ -2,6 +2,8 @@
 
 import data
 
+
+##HELPER FUNCS GO HERE
 def boss_access_attempt():
     #Helper function for the player_move function
     code = "ABCD"
@@ -17,6 +19,7 @@ def boss_access_attempt():
         "It seems you must figure out what to say first.")
         return False
     
+#ALGOS GO HERE
 def player_move(row_pos, col_pos):
     #Note the map is a 4x4 grid, we will use this info to determine map barriers
     
@@ -121,6 +124,3 @@ def player_move(row_pos, col_pos):
     #A valid move has been made, and the coordinates have changed.
     #Return the coordinates as a tuple
     return (row_pos, col_pos)
-
-
-player_move(0,1)
