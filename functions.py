@@ -124,7 +124,6 @@ def player_move(row_pos, col_pos):
     #A valid move has been made, and the coordinates have changed.
     #Return the coordinates as a tuple
     return (row_pos, col_pos)
-<<<<<<< HEAD
 
 
 
@@ -224,11 +223,56 @@ def enemy_move(php, ehp, pc):
         
     return (sorted_moves[0], potion_count)
 
-
-
+def combat():
+    """
+    Simulates a fight between the enemy and the player
+    """
+    
+    php = 100
+    ehp = 100
+    pc = 2
+    while php > 0 and ehp > 0:
+        attack_choice = input("Press 1 to perform a heavy attack, Press 2 to \
+            perform a light attack, 3 to heal")
+        if attack_choice == "1":
+            ehp -= 65
+            print(f"You performed a heavy attack! The enemy has {ehp} health.")
+        elif attack_choice == "2":
+            ehp -= 25
+            print(f"You performed a light attack! The enemy has {ehp} health.")
+        elif attack_choice == "3":
+            if pc > 0:
+                if php + 10 > 100:
+                    php = 100
+                else:
+                    php += 10
+                pc -=1
+                print(f"You healed! You now have {php} health!")
+            else:
+                print("Uh Oh! You have no potions! You drink nothing!")
+       
+        if ehp <= 0:
+            print("You defeated the enemy!")
+            break    
+        
+        move, pc = enemy_move(php, ehp, pc)    
+        enemy_action = move[0]
+        
+        print(f"The enemy performed a(n) {enemy_action}")
+        
+        if enemy_action == "attack":
+            php -= 20
+            print(f"The enemy does 20 damage! You have {php} health! ")
+        elif enemy_action == "heal":
+            ehp +=15
+            print(f"The enemy has healed! The enemy has {ehp} health!")
+        elif enemy_action == "defend":
+            print("Enemy defends")            
+    
+    if php <= 0:
+        print("The enemy has defeated you!")
+    
 move, pc = enemy_move(86, 15, 2)
 
 print(f"enemy used {move} and has a pc of {pc}")
         
-=======
->>>>>>> refs/remotes/origin/main
