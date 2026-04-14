@@ -1,11 +1,17 @@
-#File for creating our functions
-
+#File for creating our functions for the check in
 import data
 
 
-##HELPER FUNCS GO HERE
+#Liam's helper function
 def boss_access_attempt():
-    #Helper function for the player_move function
+    """
+    Helper Function for the player_move function, used if the player attempts to
+    enter the boss room.
+    
+    Returns:
+        Bool: True if password is correct, otherwise False
+    """
+    
     code = "ABCD"
     
     guess = input("guess password: ")
@@ -19,11 +25,19 @@ def boss_access_attempt():
         "It seems you must figure out what to say first.")
         return False
     
-#ALGOS GO HERE
+#Liam's algo
 def player_move(row_pos, col_pos):
-    #Note the map is a 4x4 grid, we will use this info to determine map barriers
+    """
+    Function that allows player to move about the 4x4 map.
     
-    #loop variable to ensure funciton does not end until valid move is made
+    Args:
+        row_pos (int) the current row the player is on
+        col_pos (int) the current col the player is on
+    Returns:
+        tuple (int,int) the players coordinates
+    
+    """
+
     move_accepted = False
     
     while (not move_accepted):
@@ -125,11 +139,18 @@ def player_move(row_pos, col_pos):
     #Return the coordinates as a tuple
     return (row_pos, col_pos)
 
-
-
-
-
+#Cole's algo
 def enemy_move(php, ehp, pc):
+    """
+    Function to determine enemy's move
+    Args:
+        php(int) the players health points
+        ehp(int) the enemy's health points
+        pc(int) the enemy's potion count
+    Returns:
+        tuple: the enemy's move (str), the enemy's potion count (int)
+    
+    """
     
     potion_count = pc 
     player_health = php 
@@ -223,23 +244,27 @@ def enemy_move(php, ehp, pc):
         
     return (sorted_moves[0], potion_count)
 
-
-def combat():
+#Logan's algo
+def combat(p_inv, e_inv, max_inv):
     """
     Simulates a fight between the enemy and the player
+    Args:
+        p_inv(dict) the player's inventory - to be used for looting
+        e_inv(list) the enemy's inventory - to be used for looting
+        max_inv(int) the maxinum allowed player inventory slots.
     """
     
     php = 100
     ehp = 100
     pc = 2
     while php > 0 and ehp > 0:
-        attack_choice = input("Press 1 to perform a heavy attack, Press 2 to \
-            perform a light attack, 3 to heal")
+        attack_choice = input("Press 1 to perform a heavy attack, Press 2 to"
+            " perform a light attack, 3 to heal ")
         if attack_choice == "1":
             ehp -= 65
             print(f"You performed a heavy attack! The enemy has {ehp} health.")
         elif attack_choice == "2":
-            ehp -= 25
+            ehp -= 15
             print(f"You performed a light attack! The enemy has {ehp} health.")
         elif attack_choice == "3":
             if pc > 0:
@@ -254,33 +279,36 @@ def combat():
        
         if ehp <= 0:
             print("You defeated the enemy!")
+            enemy_loot(p_inv, e_inv, max_inv)
             break    
         
         move, pc = enemy_move(php, ehp, pc)    
         enemy_action = move[0]
         
-        print(f"The enemy performed a(n) {enemy_action}")
+        print(f"The enemy chose to {enemy_action}!")
         
         if enemy_action == "attack":
             php -= 20
             print(f"The enemy does 20 damage! You have {php} health! ")
         elif enemy_action == "heal":
             ehp +=15
-            print(f"The enemy has healed! The enemy has {ehp} health!")
+            print(f"The enemy now has {ehp} health!")
         elif enemy_action == "defend":
-            print("Enemy defends")            
+            print("The enemy braces for impact")            
     
     if php <= 0:
         print("The enemy has defeated you!")
     
-move, pc = enemy_move(86, 15, 2)
-
-print(f"enemy used {move} and has a pc of {pc}")
-        
-
+#Nathan's helper
 def remove_item(player_inv):
     """
     Manages removing items from player inventory.
+    Args:
+        player_inv(dict) the players inventory
+    Side_effects:
+        changes the contents of the inventory to free up space.
+    Returns:
+        boolean. True if space freed, false otherwise
     """
     
     if len(player_inv) == 0:
@@ -319,10 +347,16 @@ def remove_item(player_inv):
         print("What are you saying?")
         return False
     
-    
+#Nathan's algo
 def enemy_loot(player_inv, enemy_inv, max_inv):
     """
     Manages choosing what items to pick up from enemies.
+    Args:
+        p_inv(dict) the player's inventory 
+        e_inv(list) the enemy's inventory
+        max_inv(int) the maxinum allowed player inventory slots.
+    Side Effects:
+        adds new items to player's inventory
     """
     print("\n Enemy defeated! You found...\n")
     
@@ -364,11 +398,13 @@ def enemy_loot(player_inv, enemy_inv, max_inv):
             print("You leave the " + item)
         
     # Just prints the full inventory by default for now    
-    print("\n Final Inventory:")
+    print("\nFinal Inventory:")
     for item_name in player_inv:
         print(item_name + ": x" + str(player_inv[item_name]))
         
-    #tests for the loot functions
+    
+#tests for the algorithms
+    
 if __name__ == "__main__":
     
     player_inv = {
@@ -379,4 +415,14 @@ if __name__ == "__main__":
     
     enemy_inv = ["Health Potion", "Copper Wire", "Longsword", "Shield"]
     max_inv = 3
-    enemy_loot(player_inv, enemy_inv, max_inv)
+    
+    player_x = 1
+    player_y = 0
+    
+    print("Welcome to the functions test phase. We will walk you through our"
+        "algorithms here.")
+    
+    for i in range(3):
+        player_x, player_y = player_move(player_x,player_y)
+        print("Oh no! You have encountered an enemy!")
+        combat(player_inv, enemy_inv, max_inv)
