@@ -223,6 +223,7 @@ def enemy_move(php, ehp, pc):
         
     return (sorted_moves[0], potion_count)
 
+
 def combat():
     """
     Simulates a fight between the enemy and the player
@@ -276,3 +277,106 @@ move, pc = enemy_move(86, 15, 2)
 
 print(f"enemy used {move} and has a pc of {pc}")
         
+
+def remove_item(player_inv):
+    """
+    Manages removing items from player inventory.
+    """
+    
+    if len(player_inv) == 0:
+        print("Inventory is empty. Nothing to remove.")
+        return False
+    
+    print("\n Your Inventory:")
+    
+    items = list(player_inv.keys())
+    
+    # loops through index
+    i = 0
+    while i < len(items):
+        item = items[i]
+        print(str(i + 1) + ". " + item + " (x" + str(player_inv[item]) + ")")
+        i += 1
+        
+    choice = input('Choose item to remove or press "q" to cancel: ')   
+    
+    if choice == 'q':
+        return False
+    
+    try:
+        index = int(choice) - 1
+        item_removed = items[index]
+        
+        player_inv[item_removed] = player_inv[item_removed] - 1
+        
+        if player_inv[item_removed] == 0:
+            del player_inv[item_removed]
+            
+        print("You dropped " + item_removed)
+        return True
+    
+    except:
+        print("What are you saying?")
+        return False
+    
+    
+def enemy_loot(player_inv, enemy_inv, max_inv):
+    """
+    Manages choosing what items to pick up from enemies.
+    """
+    print("\n Enemy defeated! You found...\n")
+    
+    # loops through the enemies inventory
+    for item in enemy_inv:
+        
+        choice = input("Take " + item + "? (y/n): ")
+        
+        while choice != 'y' and choice != 'n':
+            choice = input("Enter y for Yes or n for No: ")
+            
+        if choice == 'n':
+            print("You leave the " + item)
+            continue
+        
+        print("You grab " + item + "...")
+        
+        # if item already in inventory
+        if item in player_inv:
+            player_inv[item] = player_inv[item] + 1
+            print(item + " now x" + str(player_inv[item]))
+            continue
+        
+        # if inventory NOT full
+        if len(player_inv) < max_inv:
+            player_inv[item] = 1
+            print("You picked up " + item)
+            continue
+        
+        # if inventory is full
+        print("Inventory full!")
+        
+        removed = remove_item(player_inv)
+        
+        if removed == True:
+            player_inv[item] = 1
+            print(item + " added")
+        else:
+            print("You leave the " + item)
+        
+    # Just prints the full inventory by default for now    
+    print("\n Final Inventory:")
+    for item_name in player_inv:
+        print(item_name + ": x" + str(player_inv[item_name]))
+        
+    #tests for the loot functions
+if __name__ == "__main__":
+    
+    player_inv = {
+        "Health Potion": 2,
+        "Copper Wire": 5,
+        "Saber": 1
+    }
+    
+    enemy_inv = ["Health Potion", "Copper Wire", "Longsword", "Shield"]
+    max_inv = 3
+    enemy_loot(player_inv, enemy_inv, max_inv)
