@@ -30,3 +30,17 @@ enemy_types = {
     11: "Wraith",
     12: "Cave Troll"
 }
+items = {
+    1: "Werewolf Fur",
+    2: "Mummy Wrappings",
+    3: "Big Tooth",
+    4: "Basilisk's Eye",
+    5: "Ectoplasm",
+    6: "Ghoul's Toung",
+    7: "Giant's Blood",
+    8: "Gorgon Snake",
+    9: "Gryphon Feather",
+    10: "Ichor",
+    11: "Unicorn Horn",
+    12: "Lich Dust"
+}   
