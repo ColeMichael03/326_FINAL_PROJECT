@@ -525,7 +525,11 @@ def shopkeeper(player):
                         print(f"You sold your {player.inventory[item]} {item} "
                               f"for {gold} gold.")
                         player.gold += gold
-                        del player.inventory[item]
+                        
+                for i in range(len(player.inventory) - 1):
+                    if list(player.inventory.keys())[i] in sellable_items:
+                        item_to_delete = list(player.inventory.keys())[i]
+                        del player.inventory[item_to_delete]
                         
                 print(f"You now have {player.gold} gold coins.")
         
@@ -537,7 +541,7 @@ def shopkeeper(player):
                           "2. Upgrade Heavy Attack: 200 gold pieces.\n"
                           "3. Upgrade Light Attack: 120 gold pieces\n"
                           "4. Increase Agility: 200 gold pieces.\n"
-                          "5. Exit")
+                          "5. Exit\n")
                     print(f"\nYou have {player.gold} gold pieces to spend.")
                     
                     if buy_choice == "1":
@@ -550,21 +554,21 @@ def shopkeeper(player):
                             
                     elif buy_choice == "2":
                         if player.gold >= 200:
-                            player.weapon.heavy_attack_damage += 10
+                            player.weapon.heavy_damage += 10
                             player.gold -= 200
                             print(f"You upgraded your heavy attack."
                                 " It now does "
-                                f"{player.weapon.heavy_attack_damage} damage.")
+                                f"{player.weapon.heavy_damage} damage.")
                         else:
                             print("You cannot afford this!")
                             
                     elif buy_choice == "3":
                         if player.gold >= 120:
-                            player.weapon.light_attack_damage += 10
+                            player.weapon.light_damage += 10
                             player.gold -= 120
                             print(f"You upgraded your light attack."
                                 " It now does "
-                                f"{player.weapon.light_attack_damage} damage.")
+                                f"{player.weapon.light_damage} damage.")
                         else:
                             print("You cannot afford this!")
                             
@@ -600,4 +604,4 @@ for i in range(2):
     player.display_dungeon_map()
     player.move()
     combat(player)
-shopkeeper(player)
+    shopkeeper(player)
