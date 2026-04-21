@@ -271,7 +271,6 @@ class Player(Character):
         for item_name in self.inventory:
             print(item_name + ": x" + str(self.inventory[item_name]))
 
-
 class Enemy(Character):
     """
     Basic Enemy Class. Will be spawned in during combat encounters.
@@ -390,8 +389,7 @@ class Enemy(Character):
                      
         sorted_moves = sorted(choices.items(), key=lambda m: m[1], reverse=True)
         return sorted_moves[0][0]
-        
-        
+             
 class Weapon():
     def __init__(self, weapon_name, heavy_damage, light_damage, 
                 heavy_miss_chance, light_miss_chance):
@@ -431,7 +429,7 @@ def create_player():
           f"the {player.character_class} enters the dungeon.")
     
     return player
-    
+# Not super sure where to put this access attempt func... maybe a method?    
 def boss_access_attempt():
     
     code = "ABCD"
@@ -502,10 +500,104 @@ def combat(player):
         #game over. Function to be added here later.
         print("You have been defeated.")  
 
+def shopkeeper(player):
+    #Almost done. Error when selling items, as the dict size changes during iteration..
+    enter_shop = input("You happen upon a small shop with a gnome tending "
+          "the stall. The gnome says he is open for business.\n"
+          "Do you approach? (y/n) ")
+    
+    if enter_shop == "y":
+        in_shop = True
+        
+        while in_shop:
+            choice = None
+            while choice not in ["1", "2", "3"]:
+                choice =input("The gnome says: 'Are ye looking to sell or buy?'"
+                        "\nPress 1 to Sell\nPress 2 to Buy\nPress 3 to Leave\n")
+            
+            if choice == "1":
+                
+                sellable_items = list(data.items.values())
+                
+                for item in player.inventory:
+                    if item in sellable_items:
+                        gold = random.randint(20, 60) * player.inventory[item]
+                        print(f"You sold your {player.inventory[item]} {item} "
+                              f"for {gold} gold.")
+                        player.gold += gold
+                        del player.inventory[item]
+                        
+                print(f"You now have {player.gold} gold coins.")
+        
+            elif choice == "2":
+                still_buying = True
+                
+                while still_buying:
+                    buy_choice = input("1. Health Potion: 50 gold pieces\n"
+                          "2. Upgrade Heavy Attack: 200 gold pieces.\n"
+                          "3. Upgrade Light Attack: 120 gold pieces\n"
+                          "4. Increase Agility: 200 gold pieces.\n"
+                          "5. Exit")
+                    print(f"\nYou have {player.gold} gold pieces to spend.")
+                    
+                    if buy_choice == "1":
+                        if player.gold >= 50:
+                            player.inventory["Health Potion"] += 1
+                            player.gold -= 50
+                            print("You purchase the health potion.")
+                        else:
+                            print("You cannot afford this!")
+                            
+                    elif buy_choice == "2":
+                        if player.gold >= 200:
+                            player.weapon.heavy_attack_damage += 10
+                            player.gold -= 200
+                            print(f"You upgraded your heavy attack."
+                                " It now does "
+                                f"{player.weapon.heavy_attack_damage} damage.")
+                        else:
+                            print("You cannot afford this!")
+                            
+                    elif buy_choice == "3":
+                        if player.gold >= 120:
+                            player.weapon.light_attack_damage += 10
+                            player.gold -= 120
+                            print(f"You upgraded your light attack."
+                                " It now does "
+                                f"{player.weapon.light_attack_damage} damage.")
+                        else:
+                            print("You cannot afford this!")
+                            
+                    elif buy_choice == "4":
+                        if player.gold >= 200:
+                            player.dodge_chance += 10
+                            player.gold -= 200
+                            print(f"You upgraded your agility. "
+                                f"You now have a {player.dodge_chance}% chance "
+                                f"to dodge an incoming attack.")
+                        else:
+                            print("You cannot afford this!")
+                    else:
+                        still_buying = False
+                        
+
+            else:
+                in_shop = False
+    
+    
+    print("You continue on your adventure.")
+        
+    
+        
+        
+        
+        
+        
     
 #TESTING ZONE
 player = create_player()
-for i in range(9):
+for i in range(2):
     player.display_dungeon_map()
     player.move()
     combat(player)
+shopkeeper(player)
