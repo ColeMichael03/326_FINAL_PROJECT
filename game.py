@@ -626,8 +626,38 @@ def totem_of_luck(player):
                 print(f"Congrats you've earned {gold} gold!")
                 
                 
+def free_roam(player):
+    ###function that calls other functions
+    # Only ends once you leave room
     
+    # ###
+    
+    choice_switch = False
+    
+    while not choice_switch:
         
+        choice = input("""You are now in free roam and are free to choose an action:
+                        1: Inspect Map
+                        2: Manage Inventory
+                        3: Heal
+                        4: Leave Room
+                          """)
+        if choice == '1':
+            player.display_dungeon_map()
+            
+        if choice == '2':
+            player.remove_item()
+        
+        if choice == '3':
+            player.heal()
+            
+        if choice == '4':
+            player.move()
+            choice_switch = True
+        
+        
+            
+            
         
         
         
@@ -639,5 +669,6 @@ for i in range(5):
     player.display_dungeon_map()
     player.move()
     combat(player)
+    free_roam(player)
     shopkeeper(player)
     totem_of_luck(player)
