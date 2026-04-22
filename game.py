@@ -590,34 +590,41 @@ def shopkeeper(player):
 #Cole's totem of luck function. 
 
 def totem_of_luck(player):
-    
-        choice = input(f"{player.name} do you wish to interact \
-                               with the totem of luck? (y/n):")
+        print("As you enter the room, there is no trace of life. Only a old"
+              "stone totem in the center, covered in years of moss.\n"
+              "There is a pitch black pit in the totem's open mouth."
+              "Carvings in the stone reads 'Do you feel lucky, Punk?'\n")
+        
+        
+        choice = input(f"{player.player_name} do you wish to interact"
+                        " with the totem of luck? (y/n): ")
         
         while choice != 'y' and choice != 'n':
                 choice = input("Enter 'y' for Yes or 'n' for No: ").casefold()
                 
         if choice == 'n':
-            print("Not a gambler I see. Maybe next time.")
-            return 
+            print("You decide that you are not in a gambling mood.")
+         
             
         
         if choice == 'y':
-            print("Luck favors the bold.")
+            print("After a moment of though, you remember that "
+                  "luck favors the bold, and reach into the totem jaws.")
 
             luck = random.randint(1,2)
             if luck == 1: 
-                
+                print("The totem's mouth snaps closed, causing a severe wound")
                 player.health = player.health * 30 // 100
                 print("You lose %30 of your health.")
                 print(f"Current health: {player.health}")
-                return player.health
+               
             
             if luck == 2:
+                print("You reach into the mouth and grab a pouch of gold coins.")
                 gold = random.randint(80,200)
                 player.gold += gold 
                 print(f"Congrats you've earned {gold} gold!")
-                return player.gold 
+                
                 
     
         
@@ -633,3 +640,4 @@ for i in range(5):
     player.move()
     combat(player)
     shopkeeper(player)
+    totem_of_luck(player)
