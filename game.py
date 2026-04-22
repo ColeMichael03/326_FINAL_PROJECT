@@ -42,6 +42,22 @@ class Player(Character):
                 print(item, end= " ")
             print("\n")
             
+    def boss_access_attempt(self):
+        #maybe use conditional expressopm
+        print("You stand upon a massive door. A plaque says "
+                "'Ye who dare enter must speak the words of Ragnaric.'")
+
+
+        if list(self.inventory.keys()).contains("Mysterious Note"):
+            
+            print("As you speak the words on the note, the mighty door swings open. " 
+                f"You are in {data.rooms[0,0]}")
+            return True
+        else:
+            print("You do not know what to do... Perhaps you can find this "
+            "information somehwere.")
+            return False
+            
     def move(self):
     
         move_accepted = False
@@ -297,7 +313,7 @@ class Enemy(Character):
         
         self.potion_count = 2
         
-        self.damage = 20
+        self.damage = random.randint(15,30)
         
         self.dodge_chance = 0
         
@@ -399,7 +415,6 @@ class Weapon():
         self.heavy_miss_chance = heavy_miss_chance
         self.light_miss_chance = light_miss_chance
         
-    
 def create_player():
     
     name = input("After days following the ragged map given you "
@@ -419,34 +434,16 @@ def create_player():
         player.weapon = Weapon("Battleaxe", 65, 35, 50, 20)
         
     elif player_class == "2":
-        player = Player(100, "Mage", name, 20)
-        player.weapon = Weapon("Grand Staff", 50, 25, 40, 10)
+        player = Player(125, "Mage", name, 20)
+        player.weapon = Weapon("Grand Staff", 50, 25, 30, 10)
     else:
-        player = Player(75, "Thief", name, 65)
-        player.weapon = Weapon("Obsidian Dagger", 35, 15, 15, 0)
+        player = Player(100, "Thief", name, 65)
+        player.weapon = Weapon("Obsidian Dagger", 40, 15, 10, 0)
     
     print(f"After a moment of contemplation, {player.player_name} "
           f"the {player.character_class} enters the dungeon.")
     
     return player
-# Not super sure where to put this access attempt func... maybe a method?    
-def boss_access_attempt():
-    
-    code = "ABCD"
-    
-    guess = input("You stand upon a massive door. A plaque says "
-                "'Ye who dare enter must speak the words of Ragnaric.' "
-                "You choose to say: ")
-
-    if guess == code:
-        print("As you speak these words, the mighty door swings open. " 
-              f"You are in {data.rooms[0,0]}")
-        return True
-    else:
-        print("Nothing happened... "
-        "It seems you must figure out what to say first.")
-        return False
-    
     
 #Encounter functions here
 def combat(player):
@@ -533,13 +530,13 @@ def shopkeeper(player):
                 still_buying = True
                 
                 while still_buying:
+                    print(f"\nYou have {player.gold} gold pieces to spend.")
                     buy_choice = input("1. Health Potion: 50 gold pieces\n"
                           "2. Upgrade Heavy Attack: 200 gold pieces.\n"
                           "3. Upgrade Light Attack: 120 gold pieces\n"
                           "4. Increase Agility: 200 gold pieces.\n"
                           "5. Exit\n")
-                    print(f"\nYou have {player.gold} gold pieces to spend.")
-                    
+                  
                     if buy_choice == "1":
                         if player.gold >= 50:
                             player.inventory["Health Potion"] += 1
@@ -588,11 +585,10 @@ def shopkeeper(player):
     print("You continue on your adventure.")
         
 #Cole's totem of luck function. 
-
 def totem_of_luck(player):
-        print("As you enter the room, there is no trace of life. Only a old"
-              "stone totem in the center, covered in years of moss.\n"
-              "There is a pitch black pit in the totem's open mouth."
+        print("As you enter the room, there is no trace of life. In the center "
+              "lies an old stone totem, covered in years of moss.\n"
+              "There is a pitch black pit in the totem's open mouth. "
               "Carvings in the stone reads 'Do you feel lucky, Punk?'\n")
         
         
