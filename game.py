@@ -518,18 +518,14 @@ def shopkeeper(player):
             if choice == "1":
                 
                 sellable_items = list(data.items.values())
-                
-                for item in player.inventory:
+            
+                for item, quantity in list(player.inventory.items()):
                     if item in sellable_items:
-                        gold = random.randint(20, 60) * player.inventory[item]
-                        print(f"You sold your {player.inventory[item]} {item} "
+                        gold = random.randint(20, 60) * quantity
+                        print(f"You sold your {quantity} {item} "
                               f"for {gold} gold.")
                         player.gold += gold
-                        
-                for i in range(len(player.inventory) - 1):
-                    if list(player.inventory.keys())[i] in sellable_items:
-                        item_to_delete = list(player.inventory.keys())[i]
-                        del player.inventory[item_to_delete]
+                        player.inventory.pop(item)
                         
                 print(f"You now have {player.gold} gold coins.")
         
@@ -600,7 +596,7 @@ def shopkeeper(player):
     
 #TESTING ZONE
 player = create_player()
-for i in range(2):
+for i in range(5):
     player.display_dungeon_map()
     player.move()
     combat(player)
