@@ -1,5 +1,6 @@
 #File for creating our functions for the check in
 import data
+import random
 
 
 #Liam's helper function
@@ -401,6 +402,39 @@ def enemy_loot(player_inv, enemy_inv, max_inv):
     print("\nFinal Inventory:")
     for item_name in player_inv:
         print(item_name + ": x" + str(player_inv[item_name]))
+        
+#Cole's totem of luck function. 
+
+def totem_of_luck(player, php):
+    
+        choice = input(f"{player.name} do you wish to interact \
+                               with the totem of luck? (y/n):")
+        
+        while choice != 'y' and choice != 'n':
+                choice = input("Enter 'y' for Yes or 'n' for No: ").casefold()
+                
+        if choice == 'n':
+            print("Not a gambler I see. Maybe next time.")
+            return 
+            
+        
+        if choice == 'y':
+            print("Luck favors the bold.")
+
+            luck = random.randint(1,2)
+            if luck == 1: 
+                
+                php = php * 30 // 100
+                print("You lose %30 of your health.")
+                print(f"Current health: {php}")
+                return php
+            
+            if luck == 2:
+                gold = random.randint(80,200)
+                player.gold += gold 
+                print(f"Congrats you've earned {gold} gold!")
+                return player.gold 
+                
         
     
 #tests for the algorithms

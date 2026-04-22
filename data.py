@@ -36,7 +36,7 @@ items = {
     3: "Big Tooth",
     4: "Basilisk's Eye",
     5: "Ectoplasm",
-    6: "Ghoul's Toung",
+    6: "Ghoul's Tounge",
     7: "Giant's Blood",
     8: "Gorgon Snake",
     9: "Gryphon Feather",

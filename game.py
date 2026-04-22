@@ -587,6 +587,38 @@ def shopkeeper(player):
     
     print("You continue on your adventure.")
         
+#Cole's totem of luck function. 
+
+def totem_of_luck(player):
+    
+        choice = input(f"{player.name} do you wish to interact \
+                               with the totem of luck? (y/n):")
+        
+        while choice != 'y' and choice != 'n':
+                choice = input("Enter 'y' for Yes or 'n' for No: ").casefold()
+                
+        if choice == 'n':
+            print("Not a gambler I see. Maybe next time.")
+            return 
+            
+        
+        if choice == 'y':
+            print("Luck favors the bold.")
+
+            luck = random.randint(1,2)
+            if luck == 1: 
+                
+                player.health = player.health * 30 // 100
+                print("You lose %30 of your health.")
+                print(f"Current health: {player.health}")
+                return player.health
+            
+            if luck == 2:
+                gold = random.randint(80,200)
+                player.gold += gold 
+                print(f"Congrats you've earned {gold} gold!")
+                return player.gold 
+                
     
         
         
