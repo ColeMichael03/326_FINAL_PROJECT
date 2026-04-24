@@ -213,11 +213,8 @@ def player_move(player):
                 move_accepted = True
 
         
-<<<<<<< HEAD
     
-=======
 #testing zone   
->>>>>>> refs/remotes/origin/main
 player = create_player()
 
 for i in range(9):

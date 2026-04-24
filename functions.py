@@ -225,7 +225,7 @@ def enemy_move(php, ehp, pc):
 
 def combat():
     """
-    Simulates a fight between the enemy and the player
+    Simulates a fight between the player and the enemy
     """
     
     php = 100
