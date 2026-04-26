@@ -47,17 +47,19 @@ class Player(Character):
         print("You stand upon a massive door. A plaque says "
                 "'Ye who dare enter must speak the words of Ragnaric.'")
 
-
-        if list(self.inventory.keys()).contains("Mysterious Note"):
+        let_in = True if list(self.inventory.keys()).contains("Mysterious Note")\
+                else False
+        
+        if let_in:
             
-            print("As you speak the words on the note, the mighty door swings open. " 
-                f"You are in {data.rooms[0,0]}")
-            return True
+            print("As you speak the words on the note, the mighty door " 
+                f"swings open. You are in {data.rooms[0,0]}")
         else:
             print("You do not know what to do... Perhaps you can find this "
             "information somehwere.")
-            return False
-            
+        return let_in
+        
+
     def move(self):
     
         move_accepted = False
