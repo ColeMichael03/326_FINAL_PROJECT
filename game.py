@@ -2,10 +2,87 @@
 "test commit"
 import data
 import random
+import time 
 
 class Character:
     def __init__(self, health):
         self.health = health
+    
+    def choose_move(self, player):
+        
+        choices = {
+            'Attack': 0,
+            'Heal': 0,
+            'Defend': 0     
+        }
+        
+        for move in choices: 
+            
+            if move == 'Attack':
+                #player low and enemy high 
+                if 40 >= player.health and self.health >= 70:
+                    choices[move]+=90 
+                #player low and enemy medium 
+                elif 40 >= player.health and 40 >= self.health < 70:
+                    choices[move]+=70
+                # both medium 
+                elif 40 >= player.health < 70 and 40 >= self.health < 70:
+                    choices[move] += 50
+                # both low 
+                elif 40 > player.health and 40 > self.health:
+                    choices[move] += 45
+                # player med and enemy low 
+                elif 40 >= player.health < 70 and self.health < 40:
+                    choices[move] += 20
+                #player high and enemy low
+                elif player.health > 70 and self.health < 40:
+                    choices[move] += 10
+                    
+            if move == "Defend":
+                #player low and enemy high 
+                if 40 >= player.health and self.health >= 70:
+                    choices[move]+=35
+                #player low and enemy medium 
+                elif 40 >= player.health and 40 >= self.health < 70:
+                    choices[move]+=70
+                # both medium 
+                elif 40 >= player.health < 70 and 40 >= self.health < 70:
+                    choices[move] += 40
+                # both low 
+                elif 40 > player.health and 40 > self.health:
+                    choices[move] += 30
+                # player med and enemy low 
+                elif 40 >= player.health < 70 and self.health < 40:
+                    choices[move] += 10
+                #player high and enemy low
+                elif player.health > 70 and self.health < 40:
+                    choices[move] += 0
+            
+            if move == "Heal":
+                if self.potion_count > 0: 
+                    #player low and enemy high 
+                    if 40 >= player.health and self.health >= 70:
+                        choices[move]+=10
+                    #player low and enemy medium 
+                    elif 40 >= player.health and 40 >= self.health < 70:
+                        choices[move]+=25
+                    # both medium 
+                    elif 40 >= player.health < 70 and 40 >= self.health < 70:
+                        choices[move] += 40
+                    # both low 
+                    elif 40 > player.health and 40 > self.health:
+                        choices[move] += 50
+                    # player med and enemy low 
+                    elif 40 >= player.health < 70 and self.health < 40:
+                        choices[move] += 75
+                    #player high and enemy low
+                    elif player.health > 70 and self.health < 40:
+                        choices[move] += 90
+                else: 
+                    choices[move] = 0
+                     
+        sorted_moves = sorted(choices.items(), key=lambda m: m[1], reverse=True)
+        return sorted_moves[0][0]
 
 class Player(Character):
     
@@ -330,81 +407,6 @@ class Enemy(Character):
         if note_chance == 7:
             self.inventory.append("Mysterious Note")
         
-    def choose_move(self, player):
-        
-        choices = {
-            'Attack': 0,
-            'Heal': 0,
-            'Defend': 0     
-        }
-        
-        for move in choices: 
-            
-            if move == 'Attack':
-                #player low and enemy high 
-                if 40 >= player.health and self.health >= 70:
-                    choices[move]+=90 
-                #player low and enemy medium 
-                elif 40 >= player.health and 40 >= self.health < 70:
-                    choices[move]+=70
-                # both medium 
-                elif 40 >= player.health < 70 and 40 >= self.health < 70:
-                    choices[move] += 50
-                # both low 
-                elif 40 > player.health and 40 > self.health:
-                    choices[move] += 45
-                # player med and enemy low 
-                elif 40 >= player.health < 70 and self.health < 40:
-                    choices[move] += 20
-                #player high and enemy low
-                elif player.health > 70 and self.health < 40:
-                    choices[move] += 10
-                    
-            if move == "Defend":
-                #player low and enemy high 
-                if 40 >= player.health and self.health >= 70:
-                    choices[move]+=35
-                #player low and enemy medium 
-                elif 40 >= player.health and 40 >= self.health < 70:
-                    choices[move]+=70
-                # both medium 
-                elif 40 >= player.health < 70 and 40 >= self.health < 70:
-                    choices[move] += 40
-                # both low 
-                elif 40 > player.health and 40 > self.health:
-                    choices[move] += 30
-                # player med and enemy low 
-                elif 40 >= player.health < 70 and self.health < 40:
-                    choices[move] += 10
-                #player high and enemy low
-                elif player.health > 70 and self.health < 40:
-                    choices[move] += 0
-            
-            if move == "Heal":
-                if self.potion_count > 0: 
-                    #player low and enemy high 
-                    if 40 >= player.health and self.health >= 70:
-                        choices[move]+=10
-                    #player low and enemy medium 
-                    elif 40 >= player.health and 40 >= self.health < 70:
-                        choices[move]+=25
-                    # both medium 
-                    elif 40 >= player.health < 70 and 40 >= self.health < 70:
-                        choices[move] += 40
-                    # both low 
-                    elif 40 > player.health and 40 > self.health:
-                        choices[move] += 50
-                    # player med and enemy low 
-                    elif 40 >= player.health < 70 and self.health < 40:
-                        choices[move] += 75
-                    #player high and enemy low
-                    elif player.health > 70 and self.health < 40:
-                        choices[move] += 90
-                else: 
-                    choices[move] = 0
-                     
-        sorted_moves = sorted(choices.items(), key=lambda m: m[1], reverse=True)
-        return sorted_moves[0][0]
              
 class Weapon():
     def __init__(self, weapon_name, heavy_damage, light_damage, 
@@ -414,6 +416,61 @@ class Weapon():
         self.light_damage = light_damage
         self.heavy_miss_chance = heavy_miss_chance
         self.light_miss_chance = light_miss_chance
+
+class Aric(Character):
+    def __init__(self, health):
+        super().__init__(health)  
+        self.max_health = health
+        self.name = "Aric The Almighty"
+        self.dodge_chance = 1
+        self.weapon = Weapon("Staff of The Final Exception", 40, 15, 30, 10)
+        self.potions = 3
+        self.super_potion = 1
+        
+    def attack(self, player):
+        
+        attack_type = random.choice(["Heavy", "Light"])
+        
+        
+        if attack_type == "Heavy":
+        #attack hits
+            if random.randint(0,100) > player.dodge_chance:
+                player.health -= self.weapon.heavy_damage
+                print(f"{self.name} batters you with a heavy blow!\n"
+                    f"You have {player.health}/{player.max_health} health left!")
+                
+        elif attack_type == "Light":
+            
+            if random.randint(50,100) > player.dodge_chance: 
+                player.health -= self.weapon.light_damage
+                print(f"{self.name} stuns you with a lightning quick jab!\n"
+                    f"you have {player.health}/{player.max_health} health left!")
+                            
+            
+    def heal(self):
+        if 0 < self.potions and self.health > 0: 
+            if self.health + 50 < self.max_health: 
+                self.health += 50
+            else:
+                self.health = self.max_health
+            self.potions -= 1
+        elif self.health <= 0 and self.super_potion > 0: 
+            self.health = self.max_health
+            self.super_potion -= 1
+            print(f"{self.name} resurrects using a Super Potion!")
+        else: 
+            print(f"{self.name} can no longer heal!")
+        
+        
+    def defend(self):
+        self.dodge_chance = 33
+        
+        
+           
+        
+        
+        
+    
         
 def create_player():
     
@@ -620,7 +677,39 @@ def totem_of_luck(player):
                 gold = random.randint(80,200)
                 player.gold += gold 
                 print(f"Congrats you've earned {gold} gold!")
-                
+
+def boss_fight(player):
+    aric = Aric(100)
+    while player.health > 0 and aric.health > 0:
+        player_move = None
+        
+        while player_move not in ["1", "2", "3"]:
+            player_move = input("Select your move.\n1 to Heavy Attack\n"
+                  "2 to Light Attack\n3 to Heal\n")
+            
+        if player_move == "1":
+            player.heavy_attack(aric)
+        elif player_move == "2":
+            player.light_attack(aric)
+        else:
+            player.heal()
+        
+        if aric.health <= 0:
+            reward()
+            
+            break
+        aric_act = aric.choose_move(player)
+    
+        if aric_act == "Attack":
+            aric.attack(player)
+            
+        if aric_act == "Heal":
+            aric.heal()
+        
+        if aric_act == "Defend":
+            aric.defend()
+            aric.dodge_chance = 1
+                  
                 
 def free_roam(player):
     ###function that calls other functions
@@ -651,8 +740,29 @@ def free_roam(player):
             player.move()
             choice_switch = True
         
-        
-            
+def reward():
+    aric = Aric(100)
+    print("Arric the Almighty staggers... ")
+    time.sleep(2)
+    print("'Impossible'...")
+    time.sleep(2)
+    print("He falls to one knee...")
+    time.sleep(2)
+    print("...'Very well.. You pass.'\n")
+    time.sleep(2)
+    print("---REWARDS---")
+    print("-- A passing grade")
+    print(f"-- {aric.weapon.weapon_name}")
+    time.sleep(1)
+    
+    print("'One more thing before you go.. '")
+    print("")
+    
+
+    
+
+
+
             
         
         
