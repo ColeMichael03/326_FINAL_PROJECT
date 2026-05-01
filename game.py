@@ -675,7 +675,32 @@ def totem_of_luck(player):
                 player.gold += gold 
                 print(f"Congrats you've earned {gold} gold!")
 
-                  
+
+#logan's riddler            
+def riddler(player):
+    print("After entering this dark room you freeze. Across from you sits an \
+          old troll")
+    print(f"'Ah {player.player_name} it has been a while.\n Answer my riddle\
+          correctly only using one word and you will pass.'\n \
+          'Fail and I will give you a slap.'")
+    riddles = {"I have four legs in the morning, two in the afternoon, and \
+               three in the evening. What am I?" : "human",
+               "I have no mouth, but I can still talk. I often repeat, but I \
+               never balk. What am I?": "echo",
+               "What has a spine but no bones?" : "book",
+               "I’m full of holes, but I can hold water. What am I?" : "sponge",
+               "What gets wet as it dries?" : "towel",
+               "What has keys but can't open locks?" : "piano"           
+    }
+    items = list(riddles.items())
+    option = random.randint(0, len(items)-1 )
+    question, answer = items[option]
+    response = input(question)
+    if response.lower() != answer:
+        player.health -= 10
+        print(f"WRONG! You now have {player.health} health!")
+    else:
+        print("Correct! You may pass")           
                 
 def free_roam(player):
     ###function that calls other functions
@@ -724,27 +749,29 @@ def reward():
     print("'One more thing before you go.. '")
     print("")
     
-
+def encounter_manager(player):
+    if nonfight_streak == 1:
+        combat(player)
+        nonfight_streak = 0
+        return
+    else:
+        chance = random.randint(1,100)
+        if chance > 40:
+            combat(player)
+            nonfight_streak = 0
+        else:
+            noncombat = random.randint(0,4)
+            if noncombat == 0:
+                shopkeeper(player)
+            elif noncombat == 1:
+                totem_of_luck(player)
+            elif noncombat == 2:
+                riddler(player)
+            else:
+                #we don't know what to put yet
+                pass
+            nonfight_streak = 1
     
-
-
-
-            
-        
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
 def boss_fight(player):
     aric = Aric(175)
     #Aric's opening monologue vvv
