@@ -286,6 +286,33 @@ class Player(Character):
         print("\nFinal Inventory:")
         for item_name in self.inventory:
             print(item_name + ": x" + str(self.inventory[item_name]))
+            
+    def __str__(self):
+        weapon_name = self.weapon.weapon_name
+        if self.health > 99:
+            return f"You are in good shape!: \n Class: \
+        {self.character_class} \n Health: {self.health} \n Weapon: \
+        {weapon_name}"
+        
+        elif self.health > 80 and self.character_class != "Thief":
+            return f"You are in okay shape!: \n Class: \
+        {self.character_class} \n Health: {self.health} \n Weapon: \
+        {weapon_name}"
+        
+        elif self.health > 80 and self.character_class == "Thief":
+            return f"You are in good shape!: \n Class: \
+        {self.character_class} \n Health: {self.health} \n Weapon: \
+        {weapon_name}"
+        
+        elif self.health > 50 and self.character_class == "Thief":
+            return f"You are in okay shape!: \n Class: \
+        {self.character_class} \n Health: {self.health} \n Weapon: \
+        {weapon_name}"
+        
+        else:
+            return f"You are in bad shape!: \n Class: \
+        {self.character_class} \n Health: {self.health} \n Weapon: \
+        {weapon_name}"
 
 class Enemy(Character):
     """
