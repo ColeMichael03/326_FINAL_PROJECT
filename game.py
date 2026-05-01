@@ -26,13 +26,13 @@ class Character:
                 elif 40 >= player.health and 40 >= self.health < 70:
                     choices[move]+=70
                 # both medium 
-                elif 40 >= player.health < 70 and 40 >= self.health < 70:
+                elif 40 < player.health < 70 and 40 >= self.health < 70:
                     choices[move] += 50
                 # both low 
                 elif 40 > player.health and 40 > self.health:
                     choices[move] += 45
                 # player med and enemy low 
-                elif 40 >= player.health < 70 and self.health < 40:
+                elif 40 < player.health < 70 and self.health < 40:
                     choices[move] += 20
                 #player high and enemy low
                 elif player.health > 70 and self.health < 40:
@@ -46,13 +46,13 @@ class Character:
                 elif 40 >= player.health and 40 >= self.health < 70:
                     choices[move]+=70
                 # both medium 
-                elif 40 >= player.health < 70 and 40 >= self.health < 70:
+                elif 40 < player.health < 70 and 40 >= self.health < 70:
                     choices[move] += 40
                 # both low 
                 elif 40 > player.health and 40 > self.health:
                     choices[move] += 30
                 # player med and enemy low 
-                elif 40 >= player.health < 70 and self.health < 40:
+                elif 40 < player.health < 70 and self.health < 40:
                     choices[move] += 10
                 #player high and enemy low
                 elif player.health > 70 and self.health < 40:
@@ -67,13 +67,13 @@ class Character:
                     elif 40 >= player.health and 40 >= self.health < 70:
                         choices[move]+=25
                     # both medium 
-                    elif 40 >= player.health < 70 and 40 >= self.health < 70:
+                    elif 40 < player.health < 70 and 40 >= self.health < 70:
                         choices[move] += 40
                     # both low 
                     elif 40 > player.health and 40 > self.health:
                         choices[move] += 50
                     # player med and enemy low 
-                    elif 40 >= player.health < 70 and self.health < 40:
+                    elif 40 < player.health < 70 and self.health < 40:
                         choices[move] += 75
                     #player high and enemy low
                     elif player.health > 70 and self.health < 40:
@@ -91,12 +91,12 @@ class Player(Character):
         self.max_health = health
         self.character_class = character_class
         self.player_name = player_name
-        self.row_pos = 3
-        self.col_pos = 3
+        self.row_pos = 0
+        self.col_pos = 1
         self.dodge_chance = dodge_chance
         self.weapon = None
         self.gold = 0
-        self.inventory = {"Health Potion": 2}
+        self.inventory = {"Health Potion": 2, "Mysterious Note": 1}
         self.is_hero = False
         
     def display_dungeon_map(self):
@@ -124,13 +124,14 @@ class Player(Character):
         print("You stand upon a massive door. A plaque says "
                 "'Ye who dare enter must speak the words of Ragnaric.'")
 
-        let_in = True if list(self.inventory.keys()).contains("Mysterious Note")\
+        let_in = True if "Mysterious Note" in list(self.inventory.keys()) \
                 else False
         
         if let_in:
             
             print("As you speak the words on the note, the mighty door " 
                 f"swings open. You are in {data.rooms[0,0]}")
+            
         else:
             print("You do not know what to do... Perhaps you can find this "
             "information somehwere.")
@@ -160,7 +161,7 @@ class Player(Character):
                 #Attempt to enter boss room    
                 elif (self.row_pos == 1 and self.col_pos == 0):
                     
-                    answer = boss_access_attempt()
+                    answer = self.boss_access_attempt()
                     
                     if answer == True:
                         self.row_pos -= 1
@@ -188,7 +189,7 @@ class Player(Character):
                 #Attempt to enter boss room
                 elif (self.row_pos == 0 and self.col_pos == 1):
                     
-                    answer = boss_access_attempt()
+                    answer = self.boss_access_attempt()
                     
                     if answer == True:
                         self.col_pos -= 1
@@ -426,7 +427,7 @@ class Aric(Character):
         self.name = "Aric The Almighty"
         self.dodge_chance = 1
         self.weapon = Weapon("Staff of The Final Exception", 40, 15, 30, 10)
-        self.potions = 3
+        self.potion_count = 3
         self.super_potion = 1
         
     def attack(self, player):
@@ -450,16 +451,14 @@ class Aric(Character):
                             
             
     def heal(self):
-        if 0 < self.potions and self.health > 0: 
+        if 0 < self.potion_count and self.health > 0: 
             if self.health + 50 < self.max_health: 
                 self.health += 50
-            else:
-                self.health = self.max_health
-            self.potions -= 1
-        elif self.health <= 0 and self.super_potion > 0: 
-            self.health = self.max_health
-            self.super_potion -= 1
-            print(f"{self.name} resurrects using a Super Potion!")
+                print(f"{self.name} heals themselves! ")
+                print(f"{self.name} has {self.health} remaining!")
+            elif self.health == self.max_health:
+                self.potion_count -= 1
+            
         else: 
             print(f"{self.name} can no longer heal!")
         
@@ -524,8 +523,6 @@ def combat(player):
             player.heal()
         
     
-#testing zone   
-player = create_player()
 
 def shopkeeper(player):
     #Almost done. Error when selling items, as the dict size changes during iteration..
@@ -652,7 +649,21 @@ def totem_of_luck(player):
                 print(f"Congrats you've earned {gold} gold!")
 
 def boss_fight(player):
-    aric = Aric(100)
+    aric = Aric(175)
+    #Aric's opening monologue vvv
+    time.sleep(2)
+    print(f"You've made it...")
+    time.sleep(2)
+    print(f"You think you brought yourself here?")
+    time.sleep(2)
+    print(f"This dungeon.. Every rule you've followed, every path you've taken,")
+    time.sleep(3)
+    print("was me.")
+    time.sleep(3)
+    print(f"Now come. Show me what you've learned.\n")
+    print("\n")
+    time.sleep(3)
+    
     while player.health > 0 and aric.health > 0:
         player_move = None
         
@@ -667,21 +678,32 @@ def boss_fight(player):
         else:
             player.heal()
         
-        if aric.health <= 0:
+        
+        
+        if aric.health <= 0 and aric.super_potion > 0: 
+                aric.health = aric.max_health
+                aric.super_potion -= 1
+                print(f"{aric.name} resurrects using a Super Potion!")
+                
+        elif aric.health > 0:
+            
+            aric_act = aric.choose_move(player)
+        
+            if aric_act == "Attack":
+                aric.attack(player)
+                
+            if aric_act == "Heal":
+                aric.heal()
+            
+            if aric_act == "Defend":
+                aric.defend()
+                print(f"Dodge chance = {aric.dodge_chance}")
+                aric.dodge_chance = 1
+        
+        else: 
             reward()
             
             break
-        aric_act = aric.choose_move(player)
-    
-        if aric_act == "Attack":
-            aric.attack(player)
-            
-        if aric_act == "Heal":
-            aric.heal()
-        
-        if aric_act == "Defend":
-            aric.defend()
-            aric.dodge_chance = 1
                   
                 
 def free_roam(player):
@@ -747,7 +769,7 @@ player = create_player()
 for i in range(5):
     player.display_dungeon_map()
     player.move()
-    combat(player)
+    boss_fight(player)
     free_roam(player)
     shopkeeper(player)
     totem_of_luck(player)
