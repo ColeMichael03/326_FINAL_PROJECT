@@ -675,62 +675,6 @@ def totem_of_luck(player):
                 player.gold += gold 
                 print(f"Congrats you've earned {gold} gold!")
 
-def boss_fight(player):
-    aric = Aric(175)
-    #Aric's opening monologue vvv
-    time.sleep(2)
-    print(f"You've made it...")
-    time.sleep(2)
-    print(f"You think you brought yourself here?")
-    time.sleep(2)
-    print(f"This dungeon.. Every rule you've followed, every path you've taken,")
-    time.sleep(3)
-    print("was me.")
-    time.sleep(3)
-    print(f"Now come. Show me what you've learned.\n")
-    print("\n")
-    time.sleep(3)
-    
-    while player.health > 0 and aric.health > 0:
-        player_move = None
-        
-        while player_move not in ["1", "2", "3"]:
-            player_move = input("Select your move.\n1 to Heavy Attack\n"
-                  "2 to Light Attack\n3 to Heal\n")
-            
-        if player_move == "1":
-            player.heavy_attack(aric)
-        elif player_move == "2":
-            player.light_attack(aric)
-        else:
-            player.heal()
-        
-        
-        
-        if aric.health <= 0 and aric.super_potion > 0: 
-                aric.health = aric.max_health
-                aric.super_potion -= 1
-                print(f"{aric.name} resurrects using a Super Potion!")
-                
-        elif aric.health > 0:
-            
-            aric_act = aric.choose_move(player)
-        
-            if aric_act == "Attack":
-                aric.attack(player)
-                
-            if aric_act == "Heal":
-                aric.heal()
-            
-            if aric_act == "Defend":
-                aric.defend()
-                print(f"Dodge chance = {aric.dodge_chance}")
-                aric.dodge_chance = 1
-        
-        else: 
-            reward()
-            
-            break
                   
                 
 def free_roam(player):
@@ -788,7 +732,76 @@ def reward():
             
         
         
+
+
+
+
+
+
+
+
+
+
+
+
+
+def boss_fight(player):
+    aric = Aric(175)
+    #Aric's opening monologue vvv
+    time.sleep(2)
+    print(f"You've made it...")
+    time.sleep(2)
+    print(f"You think you brought yourself here?")
+    time.sleep(2)
+    print(f"This dungeon.. Every rule you've followed, every path you've taken,")
+    time.sleep(3)
+    print("was me.")
+    time.sleep(3)
+    print(f"Now come. Show me what you've learned.\n")
+    print("\n")
+    time.sleep(3)
+    
+    while player.health > 0 and aric.health > 0:
+        player_move = None
         
+        while player_move not in ["1", "2", "3"]:
+            player_move = input("Select your move.\n1 to Heavy Attack\n"
+                  "2 to Light Attack\n3 to Heal\n")
+            
+        if player_move == "1":
+            player.heavy_attack(aric)
+        elif player_move == "2":
+            player.light_attack(aric)
+        else:
+            player.heal()
+        
+        
+        
+        if aric.health <= 0 and aric.super_potion > 0: 
+                aric.health = aric.max_health
+                aric.super_potion -= 1
+                print(f"{aric.name} resurrects using a Super Potion!")
+                
+        elif aric.health > 0:
+            
+            aric_act = aric.choose_move(player)
+        
+            if aric_act == "Attack":
+                aric.attack(player)
+                
+            if aric_act == "Heal":
+                aric.heal()
+            
+            if aric_act == "Defend":
+                aric.defend()
+                print(f"Dodge chance = {aric.dodge_chance}")
+                aric.dodge_chance = 1
+        
+        else: 
+            reward()
+            
+            break
+
         
     
 #TESTING ZONE
