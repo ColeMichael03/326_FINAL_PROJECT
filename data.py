@@ -22,7 +22,7 @@ enemy_types = {
     3: "Zombie",
     4: "Lycanthrope",
     5: "Ghoul",
-    6: "Imp",
+    6: "Python",
     7: "Necromancer",
     8: "Vampire",
     9: "Mummy",
