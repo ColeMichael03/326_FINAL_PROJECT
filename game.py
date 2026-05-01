@@ -709,7 +709,32 @@ def boss_fight(player):
         if aric_act == "Defend":
             aric.defend()
             aric.dodge_chance = 1
-                  
+            
+def riddler(player):
+    print("After entering this dark room you freeze. Across from you sits an \
+          old troll")
+    print(f"'Ah {player.player_name} it has been a while.\n Answer my riddle correctly\
+          only using one word and you will pass.'\n \
+          'Fail and I will give you a slap.'")
+    riddles = {"I have four legs in the morning, two in the afternoon, and \
+               three in the evening. What am I?" : "human",
+               "I have no mouth, but I can still talk. I often repeat, but I \
+               never balk. What am I?": "echo",
+               "What has a spine but no bones?" : "book",
+               "I’m full of holes, but I can hold water. What am I?" : "sponge",
+               "What gets wet as it dries?" : "towel",
+               "What has keys but can't open locks?" : "piano"           
+    }
+    items = list(riddles.items())
+    option = random.randint(0, len(items)-1 )
+    question, answer = items[option]
+    response = input(question)
+    if response.lower() != answer:
+        player.health -= 10
+        print(f"WRONG! You now have {player.health} health!")
+    else:
+        print("Correct! You may pass")
+                     
                 
 def free_roam(player):
     ###function that calls other functions
