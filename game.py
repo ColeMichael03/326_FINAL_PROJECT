@@ -709,12 +709,13 @@ def boss_fight(player):
         if aric_act == "Defend":
             aric.defend()
             aric.dodge_chance = 1
-            
+      
+#logan's riddler            
 def riddler(player):
     print("After entering this dark room you freeze. Across from you sits an \
           old troll")
-    print(f"'Ah {player.player_name} it has been a while.\n Answer my riddle correctly\
-          only using one word and you will pass.'\n \
+    print(f"'Ah {player.player_name} it has been a while.\n Answer my riddle\
+          correctly only using one word and you will pass.'\n \
           'Fail and I will give you a slap.'")
     riddles = {"I have four legs in the morning, two in the afternoon, and \
                three in the evening. What am I?" : "human",
@@ -734,8 +735,30 @@ def riddler(player):
         print(f"WRONG! You now have {player.health} health!")
     else:
         print("Correct! You may pass")
-                     
-                
+  
+nonfight_streak = 0                    
+def encounter_manager(player):
+    if nonfight_streak == 1:
+        combat(player)
+        nonfight_streak = 0
+        return
+    else:
+        chance = random.randint(1,100)
+        if chance > 40:
+            combat(player)
+            nonfight_streak = 0
+        else:
+            noncombat = random.randint(0,4)
+            if noncombat == 0:
+                shopkeeper(player)
+            elif noncombat == 1:
+                totem_of_luck(player)
+            elif noncombat == 2:
+                riddler(player)
+            else:
+                #we don't know what to put yet
+                pass
+            nonfight_streak = 1
 def free_roam(player):
     ###function that calls other functions
     # Only ends once you leave room
