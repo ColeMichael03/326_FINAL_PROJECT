@@ -4,6 +4,7 @@ import data
 import random
 import time 
 
+
 class Character:
     """
     Base character parent class, used for inheritence of all character types
@@ -12,6 +13,7 @@ class Character:
     """
     def __init__(self, health):
         self.health = health
+    
     
     def choose_move(self, player):
         """
@@ -96,6 +98,7 @@ class Character:
         sorted_moves = sorted(choices.items(), key=lambda m: m[1], reverse=True)
         return sorted_moves[0][0]
 
+
 class Player(Character):
     """
     Class for the player character
@@ -111,7 +114,6 @@ class Player(Character):
         inventory (dict) the players inventory of items
         is_hero (bool) game loop variable to see if boss has been defeated
     """
-    
     def __init__(self, health, character_class, player_name, dodge_chance):
         super().__init__(health)
         self.max_health = health
@@ -125,6 +127,7 @@ class Player(Character):
         self.inventory = {"Health Potion": 2, "Mysterious Note": 1}
         self.is_hero = False
         self.combat_streak = False
+        
         
     def display_dungeon_map(self):
         """
@@ -150,6 +153,7 @@ class Player(Character):
             for item in row:
                 print(item, end= " ")
             print("\n")
+           
             
     def boss_access_attempt(self):
         """
@@ -276,6 +280,7 @@ class Player(Character):
                         f"yourself in the {data.rooms[(self.row_pos, self.col_pos)]}")
                     move_accepted = True        
 
+
     def light_attack(self, enemy):
         """
         function for the player to preform a light attack
@@ -306,6 +311,7 @@ class Player(Character):
             print(f"The {enemy.name} has {enemy.health} health remaining.")
         else:
             print(f"The {enemy.name} dodges the attack!")
+        
                 
     def heavy_attack(self, enemy):
         """
@@ -337,6 +343,7 @@ class Player(Character):
         else:
             print(f"The {enemy.name} dodges the attack!")
     
+    
     def heal(self):
         """
         Function to allow player to heal
@@ -359,6 +366,7 @@ class Player(Character):
         else:
             print("You are out of health potions.")
 
+
     def remove_item(self):
         """
         method to remove item from players inventory
@@ -374,13 +382,13 @@ class Player(Character):
             return False
         
         print("\n Your Inventory:")
-        items = list(self.inventory.keys())
+        sorted_items = sorted(self.inventory.items(), key=lambda x:x[1], reverse=True)
         
         # loops through index
         i = 0
-        while i < len(items):
-            item = items[i]
-            print(str(i + 1) + ". " + item + " (x" + str(self.inventory[item]) + ")")
+        while i < len(sorted_items):
+            item, amount = sorted_items[i]
+            print(str(i + 1) + ". " + item + " (x" + str(amount) + ")")
             i += 1
             
         choice = input('Choose item to remove or press "q" to cancel: ')   
@@ -389,7 +397,7 @@ class Player(Character):
         
         try:
             index = int(choice) - 1
-            item_removed = items[index]
+            item_removed = sorted_items[index][0]
         
             self.inventory[item_removed] = self.inventory[item_removed] - 1
         
@@ -402,6 +410,7 @@ class Player(Character):
         except:
             print("What are you saying?")
             return False
+        
         
     def loot_enemy(self, enemy):
         """
@@ -416,7 +425,13 @@ class Player(Character):
         """
         max_inv = 5
         
-        for item in enemy.inventory:
+        priority_items = {"Mysterious Note": 3, "Health Potion": 2}
+        sorted_loot = sorted(enemy.inventory, 
+                            key=lambda x:priority_items.get(x, 1), reverse=True)
+        
+        print("\n You search the slain foe...")
+        
+        for item in sorted_loot:
             
             choice = input("Take " + item + "? (y/n): ")
         
@@ -431,7 +446,7 @@ class Player(Character):
 
             # if item already in inventory
             if item in self.inventory:
-                self.inventory[item] = self.inventory[item] + 1
+                self.inventory[item] += 1
                 print(item + " now x" + str(self.inventory[item]))
                 continue
             
@@ -450,11 +465,12 @@ class Player(Character):
                 self.inventory[item] = 1
                 print(item + " added")
             else:
-                print("You leave the " + item)
+                print("You leave the " + item)    
                 
         print("\nFinal Inventory:")
         for item_name in self.inventory:
             print(item_name + ": x" + str(self.inventory[item_name]))
+           
             
     def __str__(self):
         """
@@ -488,6 +504,7 @@ class Player(Character):
             return f"You are in bad shape!: \n Class: \
         {self.character_class} \n Health: {self.health} \n Weapon: \
         {weapon_name}"
+
 
 class Enemy(Character):
     """
@@ -531,6 +548,7 @@ class Enemy(Character):
         note_chance = random.randint(1,10)
         if note_chance == 7:
             self.inventory.append("Mysterious Note")
+          
                    
 class Weapon():
     def __init__(self, weapon_name, heavy_damage, light_damage, 
@@ -541,6 +559,7 @@ class Weapon():
         self.heavy_miss_chance = heavy_miss_chance
         self.light_miss_chance = light_miss_chance
 
+
 class Aric(Character):
     def __init__(self, health):
         super().__init__(health)  
@@ -550,6 +569,7 @@ class Aric(Character):
         self.weapon = Weapon("Staff of The Final Exception", 40, 15, 30, 10)
         self.potion_count = 3
         self.super_potion = 1
+      
         
     def attack(self, player):
         
@@ -636,6 +656,70 @@ def combat(player):
             player.light_attack(enemy)
         else:
             player.heal()
+
+    
+def locked_chest(player):
+        print("\n You discover a locked chest with a combination lock...")
+        print("You try and guess the 4-digit code to unlock it...")
+        print("+ means correct number and position.")
+        print("~ means correct number, wrong position.")
+        print(". means incorrect number.")
+        
+            
+        code = "".join(str(random.randint(0, 9)) for _ in range(4))
+        attempts = 5
+            
+        while attempts > 0:
+            guess = input(f"({attempts}) attempts left, try again...")
+                
+            if len(guess) != 4 or not guess.isdigit():
+                print("That won't work...")
+                continue
+                
+            feedback = []
+            
+            for i in range(4):
+                if guess[i] == code[i]:
+                    feedback.append("+") # correct position
+                elif guess[i] in code:
+                    feedback.append("~") # wrong position, but in code
+                else:
+                    feedback.append(".") # not in code
+                
+            print("".join(feedback))
+            
+            if guess == code:
+                print("You hear a click and the chest pops open!")
+                    
+                reward_gold = random.randint(50, 150)
+                player.gold += reward_gold
+                    
+                item_id = random.randint(1, len(data.items))
+                reward_item = data.items[item_id]
+                    
+                print(f"You found {reward_gold} gold and a {reward_item}!")
+                    
+                if reward_item in player.inventory:
+                    player.inventory[reward_item] += 1
+                    print(reward_item + " now x" + str(player.inventory[reward_item]))
+                        
+                elif len(player.inventory) < 5:
+                    player.inventory[reward_item] = 1
+                    print("You picked up " + reward_item)
+                        
+                else:
+                    print("Inventory full!")
+                                                
+                    if player.remove_item():
+                        player.inventory[reward_item] = 1
+                        print(reward_item + " added")
+                    else:
+                        print("You leave the " + reward_item)
+                return
+                
+            attempts -= 1
+            
+        print(f"You hear a strange noise, the lock has seized...")
     
 def shopkeeper(player):
     #Almost done. Error when selling items, as the dict size changes during iteration..
@@ -786,11 +870,11 @@ def riddler(player):
         print(f"WRONG! You now have {player.health} health!")
     else:
         print("Correct! You may pass")           
+           
                 
 def free_roam(player):
     ###function that calls other functions
     # Only ends once you leave room
-    
     
     choice_switch = False
     
@@ -814,6 +898,7 @@ def free_roam(player):
             player.move()
             choice_switch = True
         
+        
 def reward(player):
     aric = Aric(100)
     print("Arric the Almighty staggers... ")
@@ -832,6 +917,7 @@ def reward(player):
     print("'One more thing before you go.. '")
     print("")
     player.is_hero = True
+    
     
 def encounter_manager(player):
     #First, Check if player is in boss room. if so, always call boss fight
@@ -854,10 +940,13 @@ def encounter_manager(player):
                 totem_of_luck(player)
             elif noncombat == 2:
                 riddler(player)
+            elif noncombat == 3:
+                locked_chest(player)
             else:
                 #we don't know what to put yet
                 pass
             player.combat_streak = True
+    
     
 def boss_fight(player):
     aric = Aric(175)
@@ -888,7 +977,6 @@ def boss_fight(player):
             player.light_attack(aric)
         else:
             player.heal()
-        
         
         
         if aric.health <= 0 and aric.super_potion > 0: 
