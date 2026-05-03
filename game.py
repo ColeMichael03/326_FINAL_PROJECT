@@ -113,6 +113,7 @@ class Player(Character):
         gold (int) the amount of gold the player has
         inventory (dict) the players inventory of items
         is_hero (bool) game loop variable to see if boss has been defeated
+        combat_streak (bool) used to ensure a combat encounter every other turn.
     """
     def __init__(self, health, character_class, player_name, dodge_chance):
         super().__init__(health)
@@ -124,7 +125,7 @@ class Player(Character):
         self.dodge_chance = dodge_chance
         self.weapon = None
         self.gold = 0
-        self.inventory = {"Health Potion": 2, "Mysterious Note": 1}
+        self.inventory = {"Health Potion": 2}
         self.is_hero = False
         self.combat_streak = False
         
@@ -278,7 +279,9 @@ class Player(Character):
                     self.col_pos += 1
                     print("You walk to your right through a door and find "
                         f"yourself in the {data.rooms[(self.row_pos, self.col_pos)]}")
-                    move_accepted = True        
+                    move_accepted = True
+                    
+        clear_terminal()        
 
 
     def light_attack(self, enemy):
@@ -609,7 +612,7 @@ class Aric(Character):
         
                       
 def create_player():
-    
+    clear_terminal()
     name = input("After days following the ragged map given you "
                  "by a mysterous man in a tavern,\nyou finally find yourself at "
                  "the entrance of a decrepit dungeon.\nWhat is your name? ")
@@ -617,6 +620,7 @@ def create_player():
     player_class = "0"
     
     while player_class not in ["1", "2", "3"]:
+        clear_terminal()
         player_class = input(f"Very well, {name}. What is your background?.\n"
                             "1. A warrior, veteran of the Great War.\n"
                             "2. A mage, graduate of The Arcane Institute.\n"
@@ -641,13 +645,15 @@ def create_player():
 #Encounter functions here
 def combat(player):
     enemy = Enemy(100)
-    print(f"You encounter a hostile {enemy.name}!")
+    clear_terminal()
+    print(f"You encounter a hostile {enemy.name}!\n")
     
     while player.health > 0 and enemy.health > 0:
         player_move = None
         
         while player_move not in ["1", "2", "3"]:
-            player_move = input("Select your move.\n1 to Heavy Attack\n"
+
+            player_move = input("\nSelect your move.\n1 to Heavy Attack\n"
                   "2 to Light Attack\n3 to Heal\n")
             
         if player_move == "1":
@@ -847,19 +853,21 @@ def totem_of_luck(player):
 
 #logan's riddler            
 def riddler(player):
-    print("After entering this dark room you freeze. Across from you sits an \
-          old troll")
-    print(f"'Ah {player.player_name} it has been a while.\n Answer my riddle\
-          correctly only using one word and you will pass.'\n \
-          'Fail and I will give you a slap.'")
-    riddles = {"I have four legs in the morning, two in the afternoon, and \
-               three in the evening. What am I?" : "human",
-               "I have no mouth, but I can still talk. I often repeat, but I \
-               never balk. What am I?": "echo",
+    print("After entering this dark room you freeze. Across from you sits an "
+          "old troll\n")
+    
+    print(f"'Ah {player.player_name} it has been a while.\nAnswer my riddle "
+          "correctly only using one word and you will pass.\n"
+          "Fail and I will give you a slap.'")
+    
+    riddles = {("I have four legs in the morning, two in the afternoon, and "
+               "three in the evening. What am I? ") : "human",
+               ("I have no mouth, but I can still talk. I often repeat, but I "
+               "never balk. What am I? "): "echo",
                "What has a spine but no bones?" : "book",
-               "I’m full of holes, but I can hold water. What am I?" : "sponge",
-               "What gets wet as it dries?" : "towel",
-               "What has keys but can't open locks?" : "piano"           
+               "I’m full of holes, but I can hold water. What am I? " : "sponge",
+               "What gets wet as it dries? " : "towel",
+               "What has keys but can't open locks? " : "piano"           
     }
     items = list(riddles.items())
     option = random.randint(0, len(items)-1 )
@@ -879,8 +887,8 @@ def free_roam(player):
     choice_switch = False
     
     while not choice_switch:
-        
-        choice = input("You are now in free roam. Choose an action: "
+        clear_terminal()
+        choice = input("You are now in free roam. Choose an action:\n"
                 "1: Inspect Map\n"
                 "2: Manage Inventory\n"
                 "3: Heal\n"
@@ -921,31 +929,29 @@ def reward(player):
     
 def encounter_manager(player):
     #First, Check if player is in boss room. if so, always call boss fight
-    if player.col == 0 and player.row == 0:
+    if player.col_pos == 0 and player.row_pos == 0:
         boss_fight(player)
-    elif player.combat_streak == True:
+    elif player.combat_streak == False:
         combat(player)
-        player.combat_streak == False
-        return
+        player.combat_streak = True
+
     else:
         chance = random.randint(1,100)
         if chance > 40:
             combat(player)
-            player.combat_streak = False
+            player.combat_streak = True
         else:
-            noncombat = random.randint(0,4)
+            noncombat = random.randint(0,3)
             if noncombat == 0:
                 shopkeeper(player)
             elif noncombat == 1:
                 totem_of_luck(player)
             elif noncombat == 2:
                 riddler(player)
-            elif noncombat == 3:
-                locked_chest(player)
             else:
-                #we don't know what to put yet
-                pass
-            player.combat_streak = True
+                locked_chest(player)
+      
+            player.combat_streak = False
     
     
 def boss_fight(player):
@@ -1003,6 +1009,9 @@ def boss_fight(player):
             reward(player)
             
             break
+
+def clear_terminal():
+    print ("\n" * 3)
     
 if __name__ == "__main__":
     player = create_player()
