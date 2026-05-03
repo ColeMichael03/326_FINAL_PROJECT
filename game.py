@@ -372,12 +372,13 @@ class Player(Character):
 
     def remove_item(self):
         """
-        method to remove item from players inventory
+        Method for removing items from player inventory.
+        
         Side Effects:
-            updates players inventory dict.
-            prints inventory actions
+            Updates players inventory dictionary.
+            Prints inventory actions.
         Returns:
-            True if item was removed, false otherwise
+            True if item was removed, false otherwise.
         """
         
         if len(self.inventory) == 0:
@@ -417,14 +418,16 @@ class Player(Character):
         
     def loot_enemy(self, enemy):
         """
-        function to loot dead ememy
+        Function to pick up items from slain enemies. 
+        
         Args:
-            enemy (Enemy) the enemy being looted
+            enemy (Enemy): The enemy being looted.
+            
         Side Effects:
-            updates the players inventory
-            calls the remove_item function if player chooses to pick up item 
-            while their inventory is full
-            prints inventory
+            Updates the players inventory.
+            Calls the remove_item function if player chooses to pick up item
+            while their inventory is full.
+            Prints inventory.
         """
         max_inv = 5
         
@@ -665,67 +668,81 @@ def combat(player):
 
     
 def locked_chest(player):
-        print("\n You discover a locked chest with a combination lock...")
-        print("You try and guess the 4-digit code to unlock it...")
-        print("+ means correct number and position.")
-        print("~ means correct number, wrong position.")
-        print(". means incorrect number.")
+    """
+    Function that simulates a locked chest minigame where player must guess a 
+    4-digit code.
+    
+    Args:
+        player (Player): The player attempting to unlock chest.
+        
+    Side effects:
+        Prints instructions and feedback for each guess.
+        Updates player gold if chest unlocked.
+        Updates player inventory with random reward item.
+        Calls remove_item if inventory full.
+    """
+    print("\n You discover a locked chest with a combination lock...")
+    print("You try and guess the 4-digit code to unlock it...")
+    print("+ means correct number and position.")
+    print("~ means correct number, wrong position.")
+    print(". means incorrect number.")
         
             
-        code = "".join(str(random.randint(0, 9)) for _ in range(4))
-        attempts = 5
+    code = "".join(str(random.randint(0, 9)) for _ in range(4))
+    attempts = 5
             
-        while attempts > 0:
-            guess = input(f"({attempts}) attempts left, try again...")
+    while attempts > 0:
+        guess = input(f"({attempts}) attempts left, try again...")
                 
-            if len(guess) != 4 or not guess.isdigit():
-                print("That won't work...")
-                continue
+        if len(guess) != 4 or not guess.isdigit():
+            print("That won't work...")
+            continue
                 
-            feedback = []
+        feedback = []
             
-            for i in range(4):
-                if guess[i] == code[i]:
-                    feedback.append("+") # correct position
-                elif guess[i] in code:
-                    feedback.append("~") # wrong position, but in code
-                else:
-                    feedback.append(".") # not in code
+        for i in range(4):
+            if guess[i] == code[i]:
+                feedback.append("+") # correct position
+            elif guess[i] in code:
+                feedback.append("~") # wrong position, but in code
+            else:
+                feedback.append(".") # not in code
                 
-            print("".join(feedback))
+        print("".join(feedback))
             
-            if guess == code:
-                print("You hear a click and the chest pops open!")
+        if guess == code:
+            print("You hear a click and the chest pops open!")
                     
-                reward_gold = random.randint(50, 150)
-                player.gold += reward_gold
+            reward_gold = random.randint(50, 150)
+            player.gold += reward_gold
                     
-                item_id = random.randint(1, len(data.items))
-                reward_item = data.items[item_id]
+            item_id = random.randint(1, len(data.items))
+            reward_item = data.items[item_id]
                     
-                print(f"You found {reward_gold} gold and a {reward_item}!")
+            print(f"You found {reward_gold} gold and a {reward_item}!")
                     
-                if reward_item in player.inventory:
-                    player.inventory[reward_item] += 1
-                    print(reward_item + " now x" + str(player.inventory[reward_item]))
+            if reward_item in player.inventory:
+                player.inventory[reward_item] += 1
+                print(reward_item + " now x" + str(player.inventory[reward_item]))
                         
-                elif len(player.inventory) < 5:
-                    player.inventory[reward_item] = 1
-                    print("You picked up " + reward_item)
+            elif len(player.inventory) < 5:
+                player.inventory[reward_item] = 1
+                print("You picked up " + reward_item)
                         
-                else:
-                    print("Inventory full!")
+            else:
+                print("Inventory full!")
                                                 
-                    if player.remove_item():
-                        player.inventory[reward_item] = 1
-                        print(reward_item + " added")
-                    else:
-                        print("You leave the " + reward_item)
-                return
+                if player.remove_item():
+                    player.inventory[reward_item] = 1
+                    print(reward_item + " added")
+                else:
+                    print("You leave the " + reward_item)
+            return
                 
-            attempts -= 1
+        attempts -= 1
             
-        print(f"You hear a strange noise, the lock has seized...")
+    print(f"You hear a strange noise, the lock has seized...")
+    
     
 def shopkeeper(player):
     #Almost done. Error when selling items, as the dict size changes during iteration..
