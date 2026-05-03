@@ -124,6 +124,7 @@ class Player(Character):
         self.gold = 0
         self.inventory = {"Health Potion": 2, "Mysterious Note": 1}
         self.is_hero = False
+        self.combat_streak = False
         
     def display_dungeon_map(self):
         """
@@ -836,15 +837,15 @@ def encounter_manager(player):
     #First, Check if player is in boss room. if so, always call boss fight
     if player.col == 0 and player.row == 0:
         boss_fight(player)
-    elif nonfight_streak == 1:
+    elif player.combat_streak == True:
         combat(player)
-        nonfight_streak = 0
+        player.combat_streak == False
         return
     else:
         chance = random.randint(1,100)
         if chance > 40:
             combat(player)
-            nonfight_streak = 0
+            player.combat_streak = False
         else:
             noncombat = random.randint(0,4)
             if noncombat == 0:
@@ -856,7 +857,7 @@ def encounter_manager(player):
             else:
                 #we don't know what to put yet
                 pass
-            nonfight_streak = 1
+            player.combat_streak = True
     
 def boss_fight(player):
     aric = Aric(175)
