@@ -989,6 +989,7 @@ def free_roam(player):
         choice = input("You are now in free roam. Choose an action:\n"
                 "1: Inspect Map\n"
                 "2: Manage Inventory\n"
+                "3: Check Status\n"
                 "3: Heal\n"
                 "4: Leave Room\n")
         if choice == '1':
@@ -996,11 +997,13 @@ def free_roam(player):
             
         if choice == '2':
             player.remove_item()
+        if choice == "3":
+            print(player)
         
-        if choice == '3':
+        if choice == '5':
             player.heal()
             
-        if choice == '4':
+        if choice == '5':
             player.move()
             choice_switch = True
         
