@@ -311,7 +311,8 @@ class Player(Character):
                     f"Dagger, dealing {self.weapon.light_damage} damage.")
                     
             enemy.health -= self.weapon.light_damage
-            print(f"The {enemy.name} has {enemy.health} health remaining.")
+            print(f"The {enemy.name} has {enemy.health if enemy.health > 0 else 0}" 
+                " health remaining.")
         else:
             print(f"The {enemy.name} dodges the attack!")
         
@@ -342,7 +343,8 @@ class Player(Character):
                     f"Dagger, dealing {self.weapon.heavy_damage} damage.")
                     
             enemy.health -= self.weapon.heavy_damage
-            print(f"The {enemy.name} has {enemy.health} health remaining.")
+            print(f"The {enemy.name} has {enemy.health if enemy.health > 0 else 0}" 
+                " health remaining.")
         else:
             print(f"The {enemy.name} dodges the attack!")
     
@@ -435,7 +437,7 @@ class Player(Character):
         sorted_loot = sorted(enemy.inventory, 
                             key=lambda x:priority_items.get(x, 1), reverse=True)
         
-        print("\n You search the slain foe...")
+        print("\nYou search the slain foe...")
         
         for item in sorted_loot:
             
@@ -486,31 +488,27 @@ class Player(Character):
         
         """
         weapon_name = self.weapon.weapon_name
+        print("\n")
+        
         if self.health > 99:
-            return f"You are in good shape!: \n Class: \
-        {self.character_class} \n Health: {self.health} \n Weapon: \
-        {weapon_name}"
+            return (f"You are in good shape! \nClass: {self.character_class}\n" 
+                f"Health: {self.health}\nWeapon: {weapon_name}")
         
         elif self.health > 80 and self.character_class != "Thief":
-            return f"You are in okay shape!: \n Class: \
-        {self.character_class} \n Health: {self.health} \n Weapon: \
-        {weapon_name}"
+            return (f"You are in okay shape! \nClass: {self.character_class}\n" 
+            f"Health: {self.health} \nWeapon: {weapon_name}")
         
         elif self.health > 80 and self.character_class == "Thief":
-            return f"You are in good shape!: \n Class: \
-        {self.character_class} \n Health: {self.health} \n Weapon: \
-        {weapon_name}"
+            return (f"You are in good shape! \nClass: {self.character_class}\n" 
+            f"Health: {self.health} \nWeapon: {weapon_name}")
         
         elif self.health > 50 and self.character_class == "Thief":
-            return f"You are in okay shape!: \n Class: \
-        {self.character_class} \n Health: {self.health} \n Weapon: \
-        {weapon_name}"
+            return (f"You are in okay shape! \nClass: {self.character_class}\n" 
+                f"Health: {self.health} \nWeapon: {weapon_name}")
         
         else:
-            return f"You are in bad shape!: \n Class: \
-        {self.character_class} \n Health: {self.health} \n Weapon: \
-        {weapon_name}"
-
+            return (f"You are in bad shape! \nClass: {self.character_class}\n" 
+            f"Health: {self.health} \nWeapon: {weapon_name}")
 
 class Enemy(Character):
     """
@@ -651,7 +649,10 @@ class Aric(Character):
             None
         """
         self.dodge_chance = 33
-        
+
+
+def clear_terminal():
+    print ("\n" * 3)        
                       
 def create_player():
     clear_terminal()
@@ -699,10 +700,13 @@ def combat(player):
                   "2 to Light Attack\n3 to Heal\n")
             
         if player_move == "1":
+            print("\n")
             player.heavy_attack(enemy)
         elif player_move == "2":
+            print("\n")
             player.light_attack(enemy)
         else:
+            print("\n")
             player.heal()
 
         if enemy.health <= 0:
@@ -721,7 +725,8 @@ def combat(player):
             if random.randint(0,100) > player.dodge_chance:
                 player.health -= enemy.damage
                 print(f"The {enemy.name} attacks you!\n"
-                      f"You have {player.health}/{player.max_health} health left!")
+                      f"You have {player.health if player.health > 0 else 0}"
+                      f"/{player.max_health} health left!")
             else:
                 print(f"You dodge the {enemy.name}'s attack!")
         elif enemy_action == "Heal":
@@ -990,22 +995,24 @@ def free_roam(player):
                 "1: Inspect Map\n"
                 "2: Manage Inventory\n"
                 "3: Check Status\n"
-                "3: Heal\n"
-                "4: Leave Room\n")
+                "4: Heal\n"
+                "5: Leave Room\n")
         if choice == '1':
             player.display_dungeon_map()
             
-        if choice == '2':
+        elif choice == '2':
             player.remove_item()
-        if choice == "3":
+        elif choice == "3":
             print(player)
-        
-        if choice == '5':
+
+        elif choice == '4':
             player.heal()
             
-        if choice == '5':
+        elif choice == '5':
             player.move()
             choice_switch = True
+        else:
+            continue
         
         
 def reward(player):
@@ -1124,8 +1131,45 @@ def boss_fight(player):
             
             break
 
-def clear_terminal():
-    print ("\n" * 3)
+def victory(player):
+    clear_terminal()
+    
+    print("After slaying the dungeon's ruler, "
+          "you triumphantly begin the trek home.\n")
+    
+    if player.character_class  == "Warrior":
+        
+        print(f"Congratulations {player.player_name} the {player.character_class}.\n"
+              "Yet another foe falls under your mighty axe. The gods will"
+               " be pleased.")
+    elif player.character_class == "Mage":
+        print(f"Congratulations {player.player_name} the {player.character_class}.\n"
+              "The Academy will be pleased to gain this knowledge")
+    else:
+        print(f"Congratulations {player.player_name} the {player.character_class}.\n"
+              "Your spoils will fetch a heavy pouch of gold.")
+        
+
+def defeat(player):
+    clear_terminal()
+    
+    print("Though you fought valiantly, your might was not enough.\n")
+    
+    if player.character_class  == "Warrior":
+        
+        print(f"Your journey ends here {player.player_name} the {player.character_class}.\n"
+              "May your soul fight on in Valhalla.")
+    elif player.character_class == "Mage":
+        print(f"Your journey ends here {player.player_name} the {player.character_class}.\n"
+              "Your thirst for knowledge has led to your demise.")
+    else:
+        print(f"Your journey ends here {player.player_name} the {player.character_class}.\n"
+              "Even the quickest hands can't escape fate.")
+
+
+    
+
+
     
 if __name__ == "__main__":
     player = create_player()
@@ -1137,8 +1181,8 @@ if __name__ == "__main__":
     
     if player.is_hero:
         #call victory
-        pass
+        victory(player)
     else:
         #call defeat
-        pass
+        defeat(player)
     
