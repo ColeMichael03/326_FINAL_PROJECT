@@ -541,7 +541,26 @@ class Weapon():
         self.light_miss_chance = light_miss_chance
 
 class Aric(Character):
+    """
+    Final boss class. Designed to have more health than every other enemy as 
+    well as one self-revive in the form of a super potion. 
+    
+    Attributes: 
+    
+    Health: The health of the character. 
+    Max health: The max amount of health this character can have. 
+    Name: name of the character. 
+    dodge_chance: chance(0-100) to dodge attacks 
+    weapon: weapon instance defining attack damage and miss chances 
+    potion_count: number of healing potions the character starts with 
+    super_potion: number of super potions character starts with. 
+    """
     def __init__(self, health):
+        """
+
+        params: 
+            health: takes initial health value for aric 
+        """
         super().__init__(health)  
         self.max_health = health
         self.name = "Aric The Almighty"
@@ -551,6 +570,16 @@ class Aric(Character):
         self.super_potion = 1
         
     def attack(self, player):
+        """
+        Performs an attack on a player
+        
+        params: 
+            player(Character): The player being attacked by Aric
+        
+        returns: 
+            None 
+        
+        """
         
         attack_type = random.choice(["Heavy", "Light"])
         
@@ -571,6 +600,15 @@ class Aric(Character):
                             
             
     def heal(self):
+        """
+        Allows aric to heal up to 50 hp without exceeding max health attribute. 
+        Only works if boss is alive and has remaining potions. 
+        
+        returns: 
+            None
+        
+        
+        """
         if 0 < self.potion_count and self.health > 0: 
             if self.health + 50 < self.max_health: 
                 self.health += 50
@@ -584,6 +622,12 @@ class Aric(Character):
         
         
     def defend(self):
+        """
+        Sets Aric's dodge chance to 33 when he chooses to defend. 
+        
+        Returns: 
+            None
+        """
         self.dodge_chance = 33
         
                       
@@ -725,40 +769,49 @@ def shopkeeper(player):
         
 #Cole's totem of luck function. 
 def totem_of_luck(player):
-        print("As you enter the room, there is no trace of life. In the center "
+    """
+    Interactive encounter where the player can choose to gamble with the totem. 
+
+    Args:
+        player(Character): Takes the users character 
+        
+    Returns: 
+        None 
+    """
+    print("As you enter the room, there is no trace of life. In the center "
               "lies an old stone totem, covered in years of moss.\n"
               "There is a pitch black pit in the totem's open mouth. "
               "Carvings in the stone reads 'Do you feel lucky, Punk?'\n")
         
         
-        choice = input(f"{player.player_name} do you wish to interact"
+    choice = input(f"{player.player_name} do you wish to interact"
                         " with the totem of luck? (y/n): ")
         
-        while choice != 'y' and choice != 'n':
-                choice = input("Enter 'y' for Yes or 'n' for No: ").casefold()
-                
-        if choice == 'n':
-            print("You decide that you are not in a gambling mood.")
-         
+    while choice != 'y' and choice != 'n':
+            choice = input("Enter 'y' for Yes or 'n' for No: ").casefold()
+            
+    if choice == 'n':
+        print("You decide that you are not in a gambling mood.")
+        
+        
+    
+    if choice == 'y':
+        print("After a moment of though, you remember that "
+                "luck favors the bold, and reach into the totem jaws.")
+
+        luck = random.randint(1,2)
+        if luck == 1: 
+            print("The totem's mouth snaps closed, causing a severe wound")
+            player.health = player.health * 30 // 100
+            print("You lose %30 of your health.")
+            print(f"Current health: {player.health}")
             
         
-        if choice == 'y':
-            print("After a moment of though, you remember that "
-                  "luck favors the bold, and reach into the totem jaws.")
-
-            luck = random.randint(1,2)
-            if luck == 1: 
-                print("The totem's mouth snaps closed, causing a severe wound")
-                player.health = player.health * 30 // 100
-                print("You lose %30 of your health.")
-                print(f"Current health: {player.health}")
-               
-            
-            if luck == 2:
-                print("You reach into the mouth and grab a pouch of gold coins.")
-                gold = random.randint(80,200)
-                player.gold += gold 
-                print(f"Congrats you've earned {gold} gold!")
+        if luck == 2:
+            print("You reach into the mouth and grab a pouch of gold coins.")
+            gold = random.randint(80,200)
+            player.gold += gold 
+            print(f"Congrats you've earned {gold} gold!")
 
 #logan's riddler            
 def riddler(player):
@@ -814,6 +867,14 @@ def free_roam(player):
             choice_switch = True
         
 def reward(player):
+    """
+    Reward function that gets called once final boss is defeated. 
+    
+    Sets is_hero attibute to True 
+
+    Args:
+        player (Character): Takes user's character 
+    """
     aric = Aric(100)
     print("Arric the Almighty staggers... ")
     time.sleep(2)
@@ -859,6 +920,12 @@ def encounter_manager(player):
             nonfight_streak = 1
     
 def boss_fight(player):
+    """
+    Function that initiates final boss fight between player and Aric. 
+
+    Args:
+        player (Character): Takes user's character 
+    """
     aric = Aric(175)
     #Aric's opening monologue vvv
     time.sleep(2)
