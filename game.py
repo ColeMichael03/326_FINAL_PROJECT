@@ -705,6 +705,38 @@ def combat(player):
         else:
             player.heal()
 
+        if enemy.health <= 0:
+            player.gold += enemy.gold
+            print(f"You have slain the {enemy.name}, and have found "
+                  f"{enemy.gold} pieces of gold.")
+            print(f"You now have {player.gold} gold pieces.")
+            player.loot_enemy(enemy)
+            break
+
+        enemy_action = enemy.choose_move(player)
+        enemy.dodge_chance = 0
+
+        if enemy_action == "Attack":
+            #attack hits
+            if random.randint(0,100) > player.dodge_chance:
+                player.health -= enemy.damage
+                print(f"The {enemy.name} attacks you!\n"
+                      f"You have {player.health}/{player.max_health} health left!")
+            else:
+                print(f"You dodge the {enemy.name}'s attack!")
+        elif enemy_action == "Heal":
+            enemy.health += 30
+            enemy.potion_count -= 1
+            print(f"The {enemy.name} drinks a healh potion.\n"
+                  f"They now have {enemy.health}/100 health")
+        else:
+            print(enemy_action)
+            enemy.dodge_chance = 30
+            print("The enemy prepares for your next move.")
+
+    if player.health <= 0:
+        #game over. Function to be added here later.
+        print("You have been defeated.")
     
 def locked_chest(player):
     """
