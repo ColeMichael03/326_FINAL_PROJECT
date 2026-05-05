@@ -35,3 +35,6 @@ No command line arguments needed! (Windows users remove the '3')
 |riddler()|Logan Torma-Kim|f-string|
 |player.__str__()|Logan Torma-Kim|Magic method|
 
+## Additional Notes:
+Due to mistakes and stupidity, Liam appears to have created more of the main.py file than he actually has. The algorithms from the functions.py were copied over to main.py and some variables replaced with class attributes becuase he thought it was busy work and did not yet know the commits were how we were graded. Sorry for any inconvience in grading this may cause.
+-Liam
