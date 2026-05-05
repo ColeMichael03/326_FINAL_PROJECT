@@ -31,5 +31,7 @@ No command line arguments needed! (Windows users remove the '3')
 |shopkeep()|Liam Murray|Sequence unpacking|
 |player.boss_access_attempt()|Liam Murray|Conditional expression|
 |player.remove_item()|Nathan Kalinsky|Use of a key function|
+|victory()|Nathan Kalinsky|with statement|
+|riddler()|Logan Torma-Kim|f-string|
 |player.__str__()|Logan Torma-Kim|Magic method|
 
