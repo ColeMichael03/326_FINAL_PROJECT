@@ -743,6 +743,7 @@ def combat(player):
         #game over. Function to be added here later.
         print("You have been defeated.")
     
+
 def locked_chest(player):
     """
     Function that simulates a locked chest minigame where player must guess a 
@@ -1148,6 +1149,20 @@ def victory(player):
     else:
         print(f"Congratulations {player.player_name} the {player.character_class}.\n"
               "Your spoils will fetch a heavy pouch of gold.")
+        
+    with open("player_final_stats.txt", "w", encoding="utf-8") as file:
+        file.write("---- VICTORIOUS CAMPAIGN! ----\n")
+        file.write("ENDGAME STATS:\n")
+        file.write(f"Character Name: {player.player_name}\n")
+        file.write(f"Class: {player.character_class}\n")
+        file.write(f"Health: {player.health} / {player.max_health}\n")
+        file.write(f"Gold: {player.gold}\n")
+        file.write("\nInventory:\n")
+        if len(player.inventory) == 0:
+            file.write("Empty\n")
+        else:
+            for item, amount in player.inventory.items():
+                file.write(f"{item}: x{amount}\n")
         
 
 def defeat(player):
