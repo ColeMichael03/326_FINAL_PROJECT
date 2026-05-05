@@ -944,7 +944,7 @@ def totem_of_luck(player):
         luck = random.randint(1,2)
         if luck == 1: 
                 print("The totem's mouth snaps closed, causing a severe wound")
-                player.health = player.health * 30 // 100
+                player.health = player.health * 70 // 100
                 print("You lose %30 of your health.")
                 print(f"Current health: {player.health}")
                
@@ -1025,21 +1025,19 @@ def reward(player):
         player (Character): Takes user's character 
     """
     aric = Aric(100)
-    print("Arric the Almighty staggers... ")
+    print("Aric the Almighty staggers... ")
     time.sleep(2)
     print("'Impossible'...")
     time.sleep(2)
     print("He falls to one knee...")
     time.sleep(2)
-    print("...'Very well.. You pass.'\n")
+    print("...'You have defeated me!'\n")
     time.sleep(2)
     print("---REWARDS---")
     print("-- A passing grade")
     print(f"-- {aric.weapon.weapon_name}")
     time.sleep(1)
     
-    print("'One more thing before you go.. '")
-    print("")
     player.is_hero = True
     
     
@@ -1084,9 +1082,9 @@ def boss_fight(player):
     time.sleep(2)
     print(f"You think you brought yourself here?")
     time.sleep(2)
-    print(f"This dungeon.. Every rule you've followed, every path you've taken,")
+    print(f"This dungeon.. every path you've taken, ")
     time.sleep(3)
-    print("was me.")
+    print("...was all according to my plans!.")
     time.sleep(3)
     print(f"Now come. Show me what you've learned.\n")
     print("\n")

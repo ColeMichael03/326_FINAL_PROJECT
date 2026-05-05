@@ -1,0 +1,13 @@
+---- VICTORIOUS CAMPAIGN! ----
+ENDGAME STATS:
+Character Name: l
+Class: Mage
+Health: 125 / 125
+Gold: 616
+
+Inventory:
+Health Potion: x16
+Lich Dust: x3
+Mummy Wrappings: x2
+Werewolf Fur: x3
+Mysterious Note: x1
