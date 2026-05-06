@@ -16,7 +16,7 @@ This is the main function for the game. It holds all classes and functions that 
 
 # Running the Game
 To run the game, simply enter `python3 game.py` into your shell when in the same directory as the file. 
-No command line arguments needed! (Windows users remove the '3')
+No command line arguments needed!
 
 
 ## Bibliography
