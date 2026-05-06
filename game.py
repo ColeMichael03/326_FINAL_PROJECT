@@ -957,6 +957,19 @@ def totem_of_luck(player):
 
 #logan's riddler            
 def riddler(player):
+    """"
+    Interactive encounter where the player has to answer a riddle correctly in
+    order to not lose 10 health points.
+    
+    Args:
+    player(Character): Takes the users character.
+    
+    Returns:
+    None
+    
+    Side Effects:
+    Prints the context of the encounter as well as the result of it.
+    """
     print("After entering this dark room you freeze. Across from you sits an "
           "old troll\n")
     
@@ -1042,6 +1055,17 @@ def reward(player):
     
     
 def encounter_manager(player):
+    """
+    Decides what encounter the player will face once they runs into a room.
+    
+    Args:
+    player(Character): Takes the users character 
+    
+    Side effects:
+    Calls the other encounters
+
+    """
+    
     #First, Check if player is in boss room. if so, always call boss fight
     if player.col_pos == 0 and player.row_pos == 0:
         boss_fight(player)
