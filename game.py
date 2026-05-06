@@ -1,5 +1,5 @@
 """Simulate a dungeon crawler with procedurally generated rooms, combat, and loot collection"""
-"test commit 5/1/26 4:50pm"
+
 import data
 import random
 import time 
@@ -371,7 +371,7 @@ class Player(Character):
         else:
             print("You are out of health potions.")
 
-
+    # Nathan's inventory helper
     def remove_item(self):
         """
         Method for removing items from player inventory.
@@ -417,7 +417,7 @@ class Player(Character):
             print("What are you saying?")
             return False
         
-        
+    # Nathan's looting function
     def loot_enemy(self, enemy):
         """
         Function to pick up items from slain enemies. 
@@ -743,7 +743,7 @@ def combat(player):
         #game over. Function to be added here later.
         print("You have been defeated.")
     
-
+# Nathan's locked chest
 def locked_chest(player):
     """
     Function that simulates a locked chest minigame where player must guess a 
