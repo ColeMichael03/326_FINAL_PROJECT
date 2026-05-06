@@ -1155,6 +1155,16 @@ def boss_fight(player):
             break
 
 def victory(player):
+    """
+    Function that handles sequence when final boss is defeated and player wins.
+    
+    Args:
+        player (Player): The player who has completed the game.
+    
+    Side effects:
+        Prints victory narrative and class-specific ending text.
+        Writes final player stats to a text file player_final_stats.txt.
+    """
     clear_terminal()
     
     print("After slaying the dungeon's ruler, "
