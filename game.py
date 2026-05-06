@@ -134,7 +134,7 @@ class Player(Character):
         """
         function to display dungeon map with player position
         Side Effects:
-            prints the dungeon may to the console
+            prints the dungeon map to the console
         """
         
         map = [
@@ -555,6 +555,16 @@ class Enemy(Character):
           
                    
 class Weapon():
+    """
+    Class representing a Weapon. Used for the player and Aric class.
+    Attributes:
+        weapon_name (str) name of the weapon
+        heavy_damage (int) weapon damage during heavy attack
+        light_damage (int) weapon damage for light attack
+        heavy_miss_chance (int) the miss chance for a heavy attack
+        light_miss_chance (int) the miss chance for a light attack
+    
+    """
     def __init__(self, weapon_name, heavy_damage, light_damage, 
                 heavy_miss_chance, light_miss_chance):
         self.weapon_name = weapon_name
@@ -655,6 +665,15 @@ def clear_terminal():
     print ("\n" * 3)        
                       
 def create_player():
+    """
+    Function to set up the game. Creates the player object that will be passed
+    into the game loop.
+    Side Effects:
+        prints text to terminal
+    Returns
+        player (Player) the player object
+    
+    """
     clear_terminal()
     name = input("After days following the ragged map given you "
                  "by a mysterous man in a tavern,\nyou finally find yourself at "
@@ -820,9 +839,19 @@ def locked_chest(player):
             
     print(f"You hear a strange noise, the lock has seized...")
     
-    
+# Liam's Shopkeep    
 def shopkeeper(player):
-    #Almost done. Error when selling items, as the dict size changes during iteration..
+    """
+    Function that allows player to use a shop to sell items and buy upgrades.
+    Args:
+        player (Player) the player
+    Side Effects:
+        updates the players inventory and gold count during sell. 
+        Also changes attributes when upgrades are purchased.
+    
+    
+    
+    """
     enter_shop = input("You happen upon a small shop with a gnome tending "
           "the stall. The gnome says he is open for business.\n"
           "Do you approach? (y/n) ")
@@ -1188,6 +1217,12 @@ def victory(player):
         
 
 def defeat(player):
+    """
+    defeat function to run when player dies.
+    Args:
+        player (Player) the player
+    
+    """
     clear_terminal()
     
     print("Though you fought valiantly, your might was not enough.\n")
