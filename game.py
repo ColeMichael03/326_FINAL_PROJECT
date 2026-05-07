@@ -709,6 +709,22 @@ def create_player():
     
 #Encounter functions here
 def combat(player):
+    """
+    Function to simulate a fight between the player and an enemy.
+    
+    Args:
+    player (Player): the player
+    
+    Side effects:
+    Prints instructions for how to attack as well as information on the health
+    of the enemy and yourself. 
+    Prints the moves of the player and enemy.
+    Player and enemy health changed.
+    Player inventory has items added to it.
+    Prints if you won or not.
+    If lost then ends the game. 
+    """
+    
     enemy = Enemy(100)
     clear_terminal()
     print(f"You encounter a hostile {enemy.name}!\n")
