@@ -21,6 +21,9 @@ No command line arguments needed!
 
 ## Bibliography
 "Daggerfall:Bestiary", *The Unofficial Elder Scrolls Wiki*, https://en.uesp.net/wiki/Daggerfall:Bestiary
+“43 Awesome Riddles for Kids [with Answers].” Www.prodigygame.com, www.prodigygame.com/main-en/blog/riddles-for-kids.
+
+‌
 
 # Attribution Table
 
