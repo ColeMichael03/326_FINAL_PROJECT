@@ -1030,8 +1030,18 @@ def riddler(player):
            
                 
 def free_roam(player):
-    ###function that calls other functions
-    # Only ends once you leave room
+    """
+        Free roam function allowing user to choose from a list of actions before 
+        advancing to the next room. 
+
+        Attributes: 
+
+        Player(Character): Takes user character 
+
+        Returns: 
+            None
+
+    """
     
     choice_switch = False
     
