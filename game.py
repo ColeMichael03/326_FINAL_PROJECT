@@ -606,8 +606,8 @@ class Aric(Character):
         params: 
             player(Character): The player being attacked by Aric
         
-        returns: 
-            None 
+        Side Effects:
+            updates the players health attribute
         
         """
     
@@ -634,8 +634,8 @@ class Aric(Character):
         Allows aric to heal up to 50 hp without exceeding max health attribute. 
         Only works if boss is alive and has remaining potions. 
         
-        returns: 
-            None
+        Side Effects:
+            updates Aric health attribute and lowers potion count by one
         
         
         """
@@ -655,13 +655,16 @@ class Aric(Character):
         """
         Sets Aric's dodge chance to 33 when he chooses to defend. 
         
-        Returns: 
-            None
+        Side Effects:
+            updates Aric dodge chance attribute
         """
         self.dodge_chance = 33
 
 
 def clear_terminal():
+    """
+    Simple function to space out blocks of text for easier reading
+    """
     print ("\n" * 3)        
                       
 def create_player():
@@ -945,8 +948,8 @@ def totem_of_luck(player):
     Args:
         player(Character): Takes the users character 
         
-    Returns: 
-        None
+    Side Effects:
+        updates players health or gold attribute
     
     """
     print("As you enter the room, there is no trace of life. In the center "
@@ -1061,10 +1064,11 @@ def free_roam(player):
 def reward(player):
     """
     Reward function that gets called once final boss is defeated. 
-    is_hero attibute to True 
 
     Args:
-        player (Character): Takes user's character 
+        player (Character): Takes user's character \
+    Side Effects:
+        updates players is_hero attribute
     """
     aric = Aric(100)
     print("Aric the Almighty staggers... ")
