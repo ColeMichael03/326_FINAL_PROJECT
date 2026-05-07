@@ -1053,6 +1053,9 @@ def free_roam(player):
         Attributes: 
 
         Player(Character): Takes user character 
+        
+        Side Effects:
+            calls the selected function
 
         Returns: 
             None
