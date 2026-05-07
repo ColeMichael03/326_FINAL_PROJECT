@@ -550,7 +550,7 @@ class Enemy(Character):
         self.inventory.append(data.items[item2])
 
         note_chance = random.randint(1,10)
-        if note_chance == 7:
+        if note_chance > 8 :
             self.inventory.append("Mysterious Note")
           
                    
