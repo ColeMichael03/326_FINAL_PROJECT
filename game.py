@@ -160,6 +160,8 @@ class Player(Character):
         """
         helper function to see if player can enter the boss room. This is
         based on if the player has the note in their inventory
+        Side Effects:
+            prints to screen
         Returns:
             let_in (bool) true if player is allowed access, false otherwise
         
@@ -664,6 +666,8 @@ class Aric(Character):
 def clear_terminal():
     """
     Simple function to space out blocks of text for easier reading
+    Side Effects:
+        prints to terminal
     """
     print ("\n" * 3)        
                       
@@ -867,6 +871,7 @@ def shopkeeper(player):
     Side Effects:
         updates the players inventory and gold count during sell. 
         Also changes attributes when upgrades are purchased.
+        prints details to screen
     
     
     
@@ -1275,6 +1280,8 @@ def defeat(player):
     defeat function to run when player dies.
     Args:
         player (Player) the player
+    Side Effects:
+        prints to screen
     
     """
     clear_terminal()
@@ -1298,6 +1305,9 @@ def defeat(player):
 
     
 if __name__ == "__main__":
+    """
+    Main function with game loop
+    """
     player = create_player()
     
     while player.health > 0 and not player.is_hero:
