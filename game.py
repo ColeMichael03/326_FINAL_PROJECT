@@ -1055,7 +1055,10 @@ def free_roam(player):
         Player(Character): Takes user character 
         
         Side Effects:
+            prints to terminal 
             calls the selected function
+            clears terminal screen 
+            
 
         Returns: 
             None
@@ -1098,6 +1101,7 @@ def reward(player):
         player (Character): Takes user's character \
     Side Effects:
         updates players is_hero attribute
+        prints to terminal 
     """
     aric = Aric(100)
     print("Aric the Almighty staggers... ")
@@ -1160,6 +1164,13 @@ def boss_fight(player):
 
     Args:
         player (Character): Takes user's character 
+    
+    Side effects: 
+        prints to terminal
+        updates player.health and aric.health 
+        updates aric.superpotion 
+        
+        
     """
     aric = Aric(175)
     #Aric's opening monologue vvv
